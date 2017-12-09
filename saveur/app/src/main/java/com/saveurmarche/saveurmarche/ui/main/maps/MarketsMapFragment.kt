@@ -28,11 +28,11 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
     companion object {
 
         val FRAGMENT_NAME = MarketsMapFragment::class.java.simpleName
-        
+
         private val MIN_TIME: Long = 10000 //Minimum time between 2 update (in millisecond)
         private val MIN_DIST: Float = 1.0f //Minimum distance between 2 update (in meter)
-        private val ZOOM : Float= 15.0f
-        
+        private val ZOOM: Float = 15.0f
+
         fun newInstance(): MarketsMapFragment {
             return MarketsMapFragment()
         }
@@ -43,8 +43,8 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
     ** Private field
     ************************************************************************************************
     */
-    private lateinit var mMap : MarketMap
-    private lateinit var mProgressView : View
+    private lateinit var mMap: MarketMap
+    private lateinit var mProgressView: View
 
     private var mMapView: MapView? = null
 
@@ -125,7 +125,7 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
                 val latitude = location.latitude
                 val longitude = location.longitude
 
-                logD(TAG, {"set location to: $latitude, $longitude"})
+                logD(TAG, { "set location to: $latitude, $longitude" })
 
                 //update map position
                 mMap.moveCamera(latitude, longitude, ZOOM)
@@ -144,15 +144,15 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-        logD(TAG, {"status changed: " + provider})
+        logD(TAG, { "status changed: " + provider })
     }
 
     override fun onProviderEnabled(provider: String?) {
-        logD(TAG, {"provider enable: " + provider})
+        logD(TAG, { "provider enable: " + provider })
     }
 
     override fun onProviderDisabled(provider: String?) {
-        logD(TAG, {"provider disable:" + provider})
+        logD(TAG, { "provider disable:" + provider })
     }
 
     /*
@@ -189,12 +189,12 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
                     GeoPermissionHelper.ask(it,
                             object : SimplePermissionsListener {
                                 override fun onPermissionGranted(response: List<PermissionGrantedResponse>) {
-                                    logD(TAG, {"checkPermissionAndInitMap > permission granted"})
+                                    logD(TAG, { "checkPermissionAndInitMap > permission granted" })
                                     initMap()
                                 }
 
                                 override fun onPermissionDenied(response: List<PermissionDeniedResponse>) {
-                                    logE(TAG, {"checkPermissionAndInitMap > permission denied"})
+                                    logE(TAG, { "checkPermissionAndInitMap > permission denied" })
                                 }
                             })
                 }

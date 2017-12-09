@@ -87,6 +87,7 @@ object GeoPermissionHelper {
 
         return dialog
     }
+
     private fun askWithDexter(activity: Activity,
                               permissionListener: SimplePermissionsListener) {
         PermissionHelper.askForPermissionsWithDexter(

@@ -16,7 +16,7 @@ fun GoogleMap.displayMarker(markerName: String,
                             markerIcon: BitmapDescriptor,
                             latitude: Double,
                             longitude: Double): Marker {
-    logD("MapHelper", { "displaying marker:" + "markerName=" + markerName + "latitude=" + latitude + "longitude=" + longitude})
+    logD("MapHelper", { "displaying marker:" + "markerName=" + markerName + "latitude=" + latitude + "longitude=" + longitude })
 
     // create marker
     val marker = MarkerOptions()
