@@ -1,11 +1,13 @@
 package com.saveurmarche.saveurmarche.ui.main.maps
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.support.annotation.RequiresPermission
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,12 +28,6 @@ import com.saveurmarche.saveurmarche.ui.base.BaseFragment
 class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerClickListener, MarketsMapContract.View {
 
     companion object {
-
-        val FRAGMENT_NAME: String = MarketsMapFragment::class.java.simpleName
-
-        private val MIN_TIME: Long = 10000 //Minimum time between 2 update (in millisecond)
-        private val MIN_DIST: Float = 1.0f //Minimum distance between 2 update (in meter)
-        private val ZOOM: Float = 15.0f
 
         fun newInstance(): MarketsMapFragment {
             return MarketsMapFragment()
@@ -98,90 +94,56 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
 
     /*
     ************************************************************************************************
-    ** OnMarkerClickListener implementation
+    ** MarketsMapContract.View implementation
     ************************************************************************************************
-     */
-    override fun onMarkerClick(marker: Marker?): Boolean {
-        if (marker != null) {
-            navigateToMarketDetail(marker.tag as Market)
-            return true
+    */
+    override fun showLoading(start: Boolean) {
+        with(mProgressView) {
+            visibility = if (start) View.VISIBLE else View.GONE
         }
-
-        return false
     }
 
-    /*
-    ************************************************************************************************
-    ** LocationListener implementation
-    ************************************************************************************************
-     */
-    override fun onLocationChanged(location: Location?) {
-        if (location != null) {
-            context?.let {
-                with(mProgressView) {
-                    visibility = View.VISIBLE
-                }
+    override fun moveCamera(latitude: Double, longitude: Double, zoom: Float) {
+        with(mMap) {
+            moveCamera(latitude, longitude, zoom)
+        }
+    }
 
-                val latitude = location.latitude
-                val longitude = location.longitude
+    override fun drawMarketOnMap(data: ArrayList<Market>) {
+        context?.let {
+            mMap.draw(it, data)
+        }
+    }
 
-                logD(TAG, { "set location to: $latitude, $longitude" })
-
-                //update map position
-                mMap.moveCamera(latitude, longitude, ZOOM)
-
-                //Should retrieve market around the new position and display them
-                mMap.draw(it, arrayListOf(
-                        Market(latitude + 0.005f, longitude, "Marché de gauche", null),
-                        Market(latitude, longitude + 0.005f, "Marché de droite" + 0.005f, null),
-                        Market(latitude, longitude + 0.005f, "Marché au pif", null)))
-
-                with(mProgressView) {
-                    visibility = View.GONE
-                }
+    override fun navigateToMarketDetail(market: Market) {
+        context?.let {
+            with(market) {
+                AlertDialog.Builder(it)
+                        .setTitle(name)
+                        .setMessage("Bienvenue sur la page de detail du marché $name")
+                        .setPositiveButton("Visiter") { _, _ -> }
+                        .setNegativeButton("Annuler") { _, _ -> }
+                        .show()
             }
         }
     }
 
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-        logD(TAG, { "status changed: " + provider })
-    }
-
-    override fun onProviderEnabled(provider: String?) {
-        logD(TAG, { "provider enable: " + provider })
-    }
-
-    override fun onProviderDisabled(provider: String?) {
-        logD(TAG, { "provider disable:" + provider })
-    }
-
-    /*
-    ************************************************************************************************
-    ** Private fun
-    ************************************************************************************************
-     */
-    private fun initMapView(savedInstanceState: Bundle?) {
+    override fun retrieveMap() {
         mMapView?.let {
-            try {
-                it.onCreate(savedInstanceState)
-                it.onResume()//We display the map immediately
+            //retrieve GoogleMap from mapView
+            it.getMapAsync({ googleMap ->
+                //Init the mapView
+                googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style))
+                googleMap.setOnMarkerClickListener(this)
 
-                //retrieve GoogleMap from mapView
-                it.getMapAsync({ googleMap ->
-                    //Init the mapView
-                    googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style))
-                    googleMap.setOnMarkerClickListener(this)
+                mMap = MarketMap(googleMap)
 
-                    mMap = MarketMap(googleMap)
-                    checkPermissionAndInitMap()
-                })
-            } catch (e: android.content.res.Resources.NotFoundException) {
-                //DO want you want, fk instant run
-            }
+                presenter.onMapRetrieved()
+            })
         }
     }
 
-    private fun checkPermissionAndInitMap() {
+    override fun checkPermission() {
         //Should check right
         context?.let {
             if (GeoPermissionHelper.shouldAsk(it)) {
@@ -190,21 +152,23 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
                             object : SimplePermissionsListener {
                                 override fun onPermissionGranted(response: List<PermissionGrantedResponse>) {
                                     logD(TAG, { "checkPermissionAndInitMap > permission granted" })
-                                    initMap()
+                                    presenter.onPermissionGranted(response)
                                 }
 
                                 override fun onPermissionDenied(response: List<PermissionDeniedResponse>) {
                                     logE(TAG, { "checkPermissionAndInitMap > permission denied" })
+                                    presenter.onPermissionDenied(response)
                                 }
                             })
                 }
             } else {
-                initMap()
+                presenter.onPermissionAlreadyGranted()
             }
         }
     }
 
-    private fun initMap() {
+    @RequiresPermission(anyOf = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
+    override fun initMap(minTime: Long, minDistance: Float) {
         context?.let {
             // Acquire a reference to the system Location Manager
             val locationManager = it.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -224,26 +188,64 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
                     }
                 }
 
-                locationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, this)
+                locationManager.requestLocationUpdates(provider, minTime, minDistance, this)
             }
 
             //Center the googleMap map on the userLocation
             with(mMap) {
                 googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-                googleMap.setMyLocationEnabled(true)
+                googleMap.isMyLocationEnabled = true
             }
         }
     }
 
-    private fun navigateToMarketDetail(market: Market) {
-        context?.let {
-            with(market) {
-                AlertDialog.Builder(it)
-                        .setTitle(name)
-                        .setMessage("Bienvenue sur la page de detail du marché $name")
-                        .setPositiveButton("Visiter") { _, _ -> }
-                        .setNegativeButton("Annuler") { _, _ -> }
-                        .show()
+    /*
+    ************************************************************************************************
+    ** OnMarkerClickListener implementation
+    ************************************************************************************************
+     */
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        logD(TAG, { "onMarkerClick" })
+        return presenter.onMarkerClick(marker)
+    }
+
+    /*
+    ************************************************************************************************
+    ** LocationListener implementation
+    ************************************************************************************************
+     */
+    override fun onLocationChanged(location: Location?) {
+        logD(TAG, { "onLocationChanged" })
+        presenter.onLocationChanged(location)
+    }
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+        logD(TAG, { "onStatusChanged" })
+        presenter.onStatusChanged(provider, status, extras)
+    }
+
+    override fun onProviderEnabled(provider: String?) {
+        logD(TAG, { "onProviderEnabled" })
+        presenter.onProviderEnabled(provider)
+    }
+
+    override fun onProviderDisabled(provider: String?) {
+        logD(TAG, { "onProviderDisabled" })
+        presenter.onProviderDisabled(provider)
+    }
+
+    /*
+    ************************************************************************************************
+    ** Private fun
+    ************************************************************************************************
+     */
+    private fun initMapView(savedInstanceState: Bundle?) {
+        mMapView?.let {
+            try {
+                it.onCreate(savedInstanceState)
+                it.onResume()//We display the map immediately
+            } catch (e: android.content.res.Resources.NotFoundException) {
+                //DO want you want, fk instant run
             }
         }
     }
