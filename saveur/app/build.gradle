@@ -1,0 +1,131 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.saveurmarche.saveurmarche"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
+
+        vectorDrawables.useSupportLibrary = true
+        resConfigs "en", "fr"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    dexOptions {
+        javaMaxHeapSize "12g"
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "Boolean", "LOG", 'true'
+
+            minifyEnabled true
+            // Uses new built-in shrinker http://tools.android.com/tech-docs/new-build-system/built-in-shrinker
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
+
+        release {
+            buildConfigField "Boolean", "LOG", 'false'
+
+            minifyEnabled true
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
+    }
+
+
+    flavorDimensions("environement")
+    productFlavors {
+        dev {
+            applicationIdSuffix = ".dev"
+            dimension "environement"
+        }
+        prod {
+            dimension "environement"
+        }
+    }
+
+    // Remove devRelease as it's not needed.
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'release'
+                && variant.flavors[0].name == 'dev') {
+            variant.ignore = true
+        }
+    }
+
+    // Always show the result of every unit test, even if it passes.
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // App's dependencies, including test
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:support-annotations:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
+    implementation "com.karumi:dexter:4.2.0"
+    compile 'com.google.android.gms:play-services-maps:11.6.2'
+    compile "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
+
+    // Dependencies for local unit tests
+    testCompile "junit:junit:$rootProject.ext.junitVersion"
+    testCompile "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
+    testCompile "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
+
+    // Android Testing Support Library's runner and rules
+    androidTestCompile "com.android.support.test:runner:$rootProject.ext.runnerVersion"
+    androidTestCompile "com.android.support.test:rules:$rootProject.ext.runnerVersion"
+
+    // Dependencies for Android unit tests
+    androidTestCompile "junit:junit:$rootProject.ext.junitVersion"
+    androidTestCompile "org.mockito:mockito-android:$rootProject.ext.mockitoVersion"
+
+    // Espresso UI Testing
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:$rootProject.espressoVersion"
+
+
+    // Resolve conflicts between main and test APK:
+    androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support.test.espresso.idling:idling-concurrent:$rootProject.espressoVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+}

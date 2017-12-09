@@ -1,0 +1,91 @@
+<resources>
+
+    <!--
+    ################################################################################################
+    #Theme
+    ################################################################################################
+    -->
+    <!--Default application theme (used in every activity)-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorButtonNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/titleColorPrimary</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:checkboxStyle">@style/AppTheme.Checkbox</item>
+        <item name="checkboxStyle">@style/AppTheme.Checkbox</item>
+        <item name="android:buttonStyle">@style/AppTheme.Button</item>
+        <item name="buttonStyle">@style/AppTheme.Button</item>
+    </style>
+
+    <!--Checkbox-->
+    <style name="AppTheme.Checkbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Button -->
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="colorButtonNormal">?attr/colorPrimary</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+    </style>
+
+    <!-- Button (white) -->
+    <style name="AppTheme.Button.white" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/titleColorPrimary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="colorButtonNormal">@color/white</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="AppTheme.Toolbar">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="titleTextColor">@color/titleColorPrimary</item>
+        <item name="android:textColorHint">@color/colorHint</item>
+        <item name="android:editTextColor">@color/textColorPrimary</item>
+    </style>
+
+    <!-- Alert Dialog (translucent) -->
+    <style name="AppTheme.dialog.translucent" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorButtonNormal">@color/white</item>
+    </style>
+
+    <!-- Alert Dialog -->
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="colorPrimaryDark">#ACACAC</item>
+        <item name="colorButtonNormal">@color/white</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/titleColorPrimary</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+</resources>
