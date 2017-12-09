@@ -27,7 +27,7 @@ class MarketsMapFragment : BaseFragment(), LocationListener, GoogleMap.OnMarkerC
 
     companion object {
 
-        val FRAGMENT_NAME = MarketsMapFragment::class.java.simpleName
+        val FRAGMENT_NAME: String = MarketsMapFragment::class.java.simpleName
 
         private val MIN_TIME: Long = 10000 //Minimum time between 2 update (in millisecond)
         private val MIN_DIST: Float = 1.0f //Minimum distance between 2 update (in meter)

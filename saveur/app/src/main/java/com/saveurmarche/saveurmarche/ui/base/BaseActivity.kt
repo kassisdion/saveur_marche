@@ -8,7 +8,7 @@ import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity() {
-    protected val TAG = javaClass.simpleName
+    protected val TAG: String = javaClass.simpleName
 
     /*
     ************************************************************************************************
