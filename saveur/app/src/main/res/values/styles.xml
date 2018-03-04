@@ -9,10 +9,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColorHint">@color/colorHint</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorButtonNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/titleColorPrimary</item>
+        <item name="android:textColorPrimary">@color/black</item>
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:checkboxStyle">@style/AppTheme.Checkbox</item>
@@ -42,7 +42,7 @@
 
     <!-- Button (white) -->
     <style name="AppTheme.Button.white" parent="Widget.AppCompat.Button">
-        <item name="android:textColor">@color/titleColorPrimary</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

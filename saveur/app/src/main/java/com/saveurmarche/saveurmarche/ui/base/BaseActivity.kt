@@ -23,6 +23,7 @@ abstract class BaseActivity : AppCompatActivity() {
     @LayoutRes
     protected abstract fun getLayoutResource(): Int
 
+
     /**
      * init the activity here
      * This method is equivalent to onCreate()
@@ -41,6 +42,9 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        onPreInflate(savedInstanceState)
+
         setContentView(getLayoutResource())
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
@@ -53,6 +57,15 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    /*
+    ************************************************************************************************
+    ** Fun child could override
+    ************************************************************************************************
+    */
+    protected open fun onPreInflate(savedInstanceState: Bundle?) {
+
     }
 
     /*

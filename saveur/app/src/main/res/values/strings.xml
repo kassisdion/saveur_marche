@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">SaveurMarche</string>
+
+    <!-- Permission (geo) -->
     <string name="permission_geoloc_content">Autorise nous a acceder a ta position pour pouvoir localiser les marchés autour de toi</string>
     <string name="permission_geoloc_action_positive">Trouver les marcher</string>
     <string name="permission_geoloc_action_negative">Non merci</string>
+
+    <!-- MainActivity -->
+    <string name="map_item_title">Plan</string>
+    <string name="market_item_title">Marchés</string>
+
+    <!-- LaunchActivity -->
+    <string name="launch_loading_text">chargement en cours</string>
+
+    <!-- MarketList -->
+    <string name="marketList_search">Chercher par code postal, nom, etc</string>
 </resources>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/MarketMapAppBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:cardPreventCornerOverlap="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:layout_weight="1"
+                        android:id="@+id/MarketsAppCompatEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:hint="@string/marketList_search"
+                        android:imeOptions="flagNoExtractUi|actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        app:backgroundTint="@color/transparent"
+                        android:ellipsize="end"/>
+
+                    <View
+                        android:layout_width="2dip"
+                        android:layout_height="match_parent"/>
+
+                    <ImageView
+                        android:id="@+id/MarketsImageViewFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_filter_list_black_24dp"
+                        android:background="?selectableItemBackground"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/MarketsSwipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/MarketsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/MarketsLoading"
+        android:layout_centerInParent="true"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_gravity="center" />
+
+</RelativeLayout>

@@ -40,3 +40,11 @@ inline fun logE(tag: String,
         Log.e(tag, msg())
     }
 }
+
+inline fun logE(tag: String,
+                msg: () -> String,
+                error: Throwable) {
+    if (BuildConfig.LOG) {
+        Log.e(tag, msg(), error)
+    }
+}

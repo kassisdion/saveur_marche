@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/AppTheme.Toolbar" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/contentFrame"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/MainActivityContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/MainActivityBottomNavigationView" />
+
+            <android.support.design.widget.BottomNavigationView
+                android:background="@color/colorPrimary"
+                android:id="@+id/MainActivityBottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                app:itemIconTint="@drawable/nav_item_color_state"
+                app:itemTextColor="@drawable/nav_item_color_state"
+                app:menu="@menu/bottom_navigation_main"
+                app:layout_scrollFlags="scroll|enterAlways|snap" />
+
+        </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

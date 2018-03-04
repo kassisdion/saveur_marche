@@ -1,8 +1,32 @@
 package com.saveurmarche.saveurmarche
 
 import android.app.Application
+import android.content.Context
+import com.saveurmarche.saveurmarche.component.application.AppComponent
+import com.saveurmarche.saveurmarche.component.application.AppModule
+import com.saveurmarche.saveurmarche.component.application.DaggerAppComponent
+import com.saveurmarche.saveurmarche.component.data.DaggerDataComponent
+import com.saveurmarche.saveurmarche.component.data.DataComponent
+import com.saveurmarche.saveurmarche.helper.realm.RealmHelper
 
 class SaveurApplication : Application() {
+    /*
+    ************************************************************************************************
+    ** Singleton
+    ************************************************************************************************
+    */
+    /**
+     * Simple singleton used to access to [AppComponent] instance needed for resolving injection
+     */
+    companion object {
+        lateinit var appComponent: AppComponent
+        lateinit var dataComponent: DataComponent
+
+        operator fun get(context: Context): SaveurApplication {
+            return context.applicationContext as SaveurApplication
+        }
+    }
+
     /*
     ************************************************************************************************
     ** Life cycle
@@ -10,6 +34,32 @@ class SaveurApplication : Application() {
     */
     override fun onCreate() {
         super.onCreate()
-        //Add needed initialisation here
+        init()
+    }
+
+    /*
+    ************************************************************************************************
+    ** Private fun
+    ************************************************************************************************
+    */
+    private fun init() {
+        setupComponent()
+        setupRealm()
+    }
+
+    private fun setupComponent() {
+        appComponent = DaggerAppComponent
+                .builder()
+                .appModule(AppModule(this))
+                .build()
+
+        dataComponent = DaggerDataComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+    }
+
+    private fun setupRealm() {
+        RealmHelper.init(this)
     }
 }

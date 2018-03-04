@@ -2,7 +2,7 @@ package com.saveurmarche.saveurmarche.helper.permission
 
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.support.annotation.IntDef
+import android.support.annotation.LongDef
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import com.karumi.dexter.Dexter
@@ -22,7 +22,7 @@ object PermissionHelper {
     const val BLOCKED_OR_NEVER_ASKED = 2L
 
     @Retention(AnnotationRetention.SOURCE)
-    @IntDef(GRANTED, DENIED, BLOCKED_OR_NEVER_ASKED)
+    @LongDef(GRANTED, DENIED, BLOCKED_OR_NEVER_ASKED)
     internal annotation class PermissionStatus
 
     /*

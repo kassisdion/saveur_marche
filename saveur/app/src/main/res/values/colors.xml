@@ -8,12 +8,16 @@
     <color name="colorPrimary">#FD6F21</color>
     <color name="colorAccent">#FD6F21</color>
     <color name="colorPrimaryDark">#D65D1B</color>
-    <color name="titleColorPrimary">#414141</color>
+    <color name="titleColorPrimary">@color/white</color>
     <color name="colorHint">#8D8D8D</color>
     <color name="textColorPrimary">#8CA0B3</color>
 
     <!-- Common -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- App -->
+    <color name="searchBarPlaceholderColor">#8A000000</color>
 
 </resources>
