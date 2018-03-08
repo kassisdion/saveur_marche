@@ -13,6 +13,7 @@ class MarketAdapter : BaseQuickAdapter<Market, BaseViewHolder>(R.layout.item_mar
     ************************************************************************************************
     */
     override fun convert(helper: BaseViewHolder, item: Market) {
-        helper.setText(R.id.itemMarketTextViewName, "${item.name} (${item.type})")
+        helper.setText(R.id.itemMarketTextViewName, "${item.name} (${item.address!!.city})")
+        helper.setText(R.id.itemMarketTextViewHour, "9H00 - 12H00")
     }
 }

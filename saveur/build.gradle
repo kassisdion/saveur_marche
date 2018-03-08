@@ -9,7 +9,7 @@ ext {
     // App dependencies
     supportLibraryVersion = '27.1.0'
     dexterVersion = '4.2.0'
-    gmsVersion = '11.6.2'
+    gmsVersion = '11.8.0'
     rxjavaVersion = '2.1.5'
     rxandroidVersion = '2.0.1'
     okhttp_version = '3.8.1'

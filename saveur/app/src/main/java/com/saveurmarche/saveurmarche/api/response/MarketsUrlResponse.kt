@@ -4,5 +4,5 @@ import com.squareup.moshi.Json
 
 data class MarketsUrlResponse(
         @Json(name = "url")
-        val url: String
+        val url: String?
 )

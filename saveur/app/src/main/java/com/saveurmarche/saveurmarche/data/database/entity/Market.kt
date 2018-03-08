@@ -1,16 +1,14 @@
 package com.saveurmarche.saveurmarche.data.database.entity
 
-import android.support.annotation.ColorRes
-import com.saveurmarche.saveurmarche.R
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-open class Market(var latitude: Double = 0.0,
-                  var longitude: Double = 0.0,
-                  var name: String = "",
-                  var type: String? = null) : RealmObject() {
-    val colorType: Int
-        @ColorRes
-        get() {
-            return R.color.black
-        }
-}
+open class Market(@PrimaryKey var id: String = "",
+                  var description: String = "",
+                  var address: MarketAddress? = null,
+                  var webSiteUrl: String? = null,
+                  var picture: String? = null,
+                  var type: String? = null,
+                  var exhibitors: Long? = null,
+                  var productDescription: String = "",
+                  var name: String = "") : RealmObject()

@@ -1,7 +1,5 @@
 package com.saveurmarche.saveurmarche.ui.main.tabs.maps
 
-import android.location.Location
-import android.os.Bundle
 import com.google.android.gms.maps.model.Marker
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
@@ -15,21 +13,16 @@ interface MarketsMapContract {
         fun moveCamera(latitude: Double, longitude: Double, zoom: Float)
         fun drawMarketOnMap(data: ArrayList<Market>)
         fun navigateToMarketDetail(market: Market)
-        fun retrieveMap()
+        fun retrieveGoogleMap()
         fun checkPermission()
-        fun initMap(minTime: Long, minDistance: Float)
+        fun setupMapView(minTime: Long, minDistance: Float)
     }
 
     interface Presenter {
-        fun onLocationChanged(location: Location?)
-        fun onStatusChanged(provider: String?, status: Int, extras: Bundle?)
-        fun onProviderEnabled(provider: String?)
-        fun onProviderDisabled(provider: String?)
         fun onMarkerClick(marker: Marker?): Boolean
-        fun onMapRetrieved()
-        fun onPermissionGranted(response: List<PermissionGrantedResponse>)
-        fun onPermissionAlreadyGranted()
-        fun onPermissionDenied(response: List<PermissionDeniedResponse>)
+        fun onGoogleMapRetrieved()
+        fun onGeoPermissionGranted(response: List<PermissionGrantedResponse>?)
+        fun onGeoPermissionDenied(response: List<PermissionDeniedResponse>)
         fun setupView()
     }
 }

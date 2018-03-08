@@ -93,10 +93,10 @@ class MarketsFragment : BaseFragment(), MarketsContract.View {
     }
 
     private fun setupWidget(rootView: View) {
-        mFilterCta = rootView.findViewById(R.id.MarketsImageViewFilter)
+        mFilterCta = rootView.findViewById(R.id.SearchImageViewFilter)
         mRecyclerView = rootView.findViewById(R.id.MarketsRecyclerView)
         mSwipeRefreshLayout = rootView.findViewById(R.id.MarketsSwipeRefreshLayout)
-        mAppCompatEditText = rootView.findViewById(R.id.MarketsAppCompatEditText)
+        mAppCompatEditText = rootView.findViewById(R.id.SearchAppCompatEditText)
         mLoader = rootView.findViewById(R.id.MarketsLoading)
     }
 

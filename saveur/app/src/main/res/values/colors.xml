@@ -5,9 +5,9 @@
 
     <!-- Color for the theme -->
     <!-- 500 = normal / 700 = dark (see https://material.google.com/style/color.html#color-color-palette) -->
-    <color name="colorPrimary">#FD6F21</color>
-    <color name="colorAccent">#FD6F21</color>
-    <color name="colorPrimaryDark">#D65D1B</color>
+    <color name="colorPrimary">#43a047</color>
+    <color name="colorAccent">#43a047</color>
+    <color name="colorPrimaryDark">#00701a</color>
     <color name="titleColorPrimary">@color/white</color>
     <color name="colorHint">#8D8D8D</color>
     <color name="textColorPrimary">#8CA0B3</color>

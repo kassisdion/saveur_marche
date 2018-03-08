@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.component.data.resource;
+package com.saveurmarche.saveurmarche.component.data;
 
 import android.support.annotation.NonNull;
 

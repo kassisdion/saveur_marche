@@ -7,13 +7,12 @@ class SaveurPreferenceManager(private val preference: SharedPreferences) {
         const val LAST_JSON_FETCH_KEY = "SaveurPreferenceManager.LAST_JSON_FETCH_KEY"
         const val OAUTH_LOGGED_IN = "SaveurPreferenceManager.OAUTH_LOGGED_IN"
         const val OAUTH_ACCESS_TOKEN = "SaveurPreferenceManager.OAUTH_ACCESS_TOKEN"
-        const val OAUTH_REFRESH_TOKEN = "SaveurPreferenceManager.OAUTH_REFRESH_TOKEN"
     }
 
-    var lastJsonFetchData: Int
-        get() = preference.getInt(LAST_JSON_FETCH_KEY, -1)
+    var lastJsonFetchData: Long
+        get() = preference.getLong(LAST_JSON_FETCH_KEY, -1)
         set(value) {
-            preference.edit().putInt(LAST_JSON_FETCH_KEY, value).apply()
+            preference.edit().putLong(LAST_JSON_FETCH_KEY, value).apply()
         }
 
     var oauthLoggedIn: Boolean
@@ -26,11 +25,5 @@ class SaveurPreferenceManager(private val preference: SharedPreferences) {
         get() = preference.getString(OAUTH_ACCESS_TOKEN, null)
         set(value) {
             preference.edit().putString(OAUTH_ACCESS_TOKEN, value).apply()
-        }
-
-    var oauthRefreshToken: String?
-        get() = preference.getString(OAUTH_REFRESH_TOKEN, null)
-        set(value) {
-            preference.edit().putString(OAUTH_REFRESH_TOKEN, value).apply()
         }
 }

@@ -1,8 +1,10 @@
 package com.saveurmarche.saveurmarche.ui.main.tabs.markets
 
 import android.text.Editable
+import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.saveurmarche.saveurmarche.data.database.entity.Market
 import com.saveurmarche.saveurmarche.data.manager.MarketsManager
+import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.ui.base.BasePresenter
 import javax.inject.Inject
 
@@ -15,6 +17,7 @@ class MarketsPresenter @Inject constructor(private val marketManager: MarketsMan
     **  Private field
     ************************************************************************************************
     */
+    private val TAG = MarketsPresenter::class.java.simpleName
     private val mData: MutableList<Market> = mutableListOf()
 
     /*
@@ -44,9 +47,11 @@ class MarketsPresenter @Inject constructor(private val marketManager: MarketsMan
             val input = s?.toString()?.toLowerCase() ?: ""
 
             val nameMatch = market.name.toLowerCase().contains(input)
-            val typeMatch = market.type?.toLowerCase()?.contains(input) ?: false
+            val descMatch = market.description.toLowerCase().contains(input)
+            val cityMatch = market.address!!.city.toLowerCase().contains(input)
+            val countryMatch = market.address!!.country.toLowerCase().contains(input)
 
-            nameMatch || typeMatch
+            nameMatch || descMatch || cityMatch || countryMatch
         }
 
         view?.setData(newData)
@@ -62,7 +67,7 @@ class MarketsPresenter @Inject constructor(private val marketManager: MarketsMan
     ************************************************************************************************
     */
     private fun fetchData() {
-        registerDisposable(marketManager.getLocalMarkets()
+        registerDisposable(marketManager.getLocalMarket()
                 .doAfterTerminate({
                     view?.showLoading(false)
                 })
@@ -73,6 +78,7 @@ class MarketsPresenter @Inject constructor(private val marketManager: MarketsMan
                             view?.setData(it)
                         },
                         {
+                            logE(TAG, { "fetchData > fail" }, RxJava2Debug.getEnhancedStackTrace(it))
                             //Should display error
                         }
                 ))

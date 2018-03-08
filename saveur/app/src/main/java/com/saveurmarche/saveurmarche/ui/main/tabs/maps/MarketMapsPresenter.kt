@@ -2,10 +2,13 @@ package com.saveurmarche.saveurmarche.ui.main.tabs.maps
 
 import android.location.Location
 import android.os.Bundle
+import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.google.android.gms.maps.model.Marker
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.saveurmarche.saveurmarche.data.database.entity.Market
+import com.saveurmarche.saveurmarche.data.manager.MarketsManager
+import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.ui.base.BasePresenter
 import javax.inject.Inject
 
@@ -13,7 +16,7 @@ import javax.inject.Inject
  * Listens to user actions from the UI ([MarketsMapFragment]), retrieves the data and updates
  * the UI as required.
  */
-class MarketMapsPresenter @Inject constructor(/*Add needed dependencies here*/) :
+class MarketMapsPresenter @Inject constructor(private val marketsManager: MarketsManager) :
         BasePresenter<MarketsMapContract.View>(),
         MarketsMapContract.Presenter {
 
@@ -29,55 +32,39 @@ class MarketMapsPresenter @Inject constructor(/*Add needed dependencies here*/) 
     ************************************************************************************************
      */
     override fun setupView() {
-        view?.retrieveMap()
-    }
-
-    override fun onLocationChanged(location: Location?) {
-        if (location != null) {
-            view?.showLoading(true)
-
-            val latitude = location.latitude
-            val longitude = location.longitude
-
-            view?.moveCamera(latitude, longitude, ZOOM)
-            view?.drawMarketOnMap(arrayListOf(
-                    Market(latitude + 0.005f, longitude, "Marché de gauche", null),
-                    Market(latitude, longitude + 0.005f, "Marché de droite" + 0.005f, null),
-                    Market(latitude, longitude + 0.005f, "Marché au pif", null)))
-
-            view?.showLoading(false)
-        }
-    }
-
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-    }
-
-    override fun onProviderEnabled(provider: String?) {
-    }
-
-    override fun onProviderDisabled(provider: String?) {
+        view?.showLoading(true)
+        view?.checkPermission()
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
-        if (marker != null) {
-            view?.navigateToMarketDetail(marker.tag as Market)
+        marker?.tag?.let {
+            view?.navigateToMarketDetail(it as Market)
             return true
         }
 
         return false
     }
 
-    override fun onMapRetrieved() {
-        view?.checkPermission()
+    override fun onGoogleMapRetrieved() {
+        view?.setupMapView(MIN_TIME, MIN_DIST)
+
+        registerDisposable(marketsManager.getLocalMarket()
+                .doOnSubscribe({ view?.showLoading(true) })
+                .doAfterTerminate({ view?.showLoading(false) })
+                .subscribe(
+                        {
+                            view?.drawMarketOnMap(ArrayList(it))
+                        },
+                        {
+                            logE("MarketMapsPresenter", { "setupView > getLocalMarket > fail" }, RxJava2Debug.getEnhancedStackTrace(it))
+                        }
+                ))
     }
 
-    override fun onPermissionGranted(response: List<PermissionGrantedResponse>) {
+    override fun onGeoPermissionGranted(response: List<PermissionGrantedResponse>?) {
+        view?.retrieveGoogleMap()
     }
 
-    override fun onPermissionAlreadyGranted() {
-        view?.initMap(MIN_TIME, MIN_DIST)
-    }
-
-    override fun onPermissionDenied(response: List<PermissionDeniedResponse>) {
+    override fun onGeoPermissionDenied(response: List<PermissionDeniedResponse>) {
     }
 }

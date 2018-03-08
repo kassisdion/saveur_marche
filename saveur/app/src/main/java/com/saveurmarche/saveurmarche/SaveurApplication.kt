@@ -8,6 +8,9 @@ import com.saveurmarche.saveurmarche.component.application.DaggerAppComponent
 import com.saveurmarche.saveurmarche.component.data.DaggerDataComponent
 import com.saveurmarche.saveurmarche.component.data.DataComponent
 import com.saveurmarche.saveurmarche.helper.realm.RealmHelper
+import com.akaita.java.rxjava2debug.RxJava2Debug
+
+
 
 class SaveurApplication : Application() {
     /*
@@ -45,6 +48,7 @@ class SaveurApplication : Application() {
     private fun init() {
         setupComponent()
         setupRealm()
+        setupRxDebug()
     }
 
     private fun setupComponent() {
@@ -61,5 +65,11 @@ class SaveurApplication : Application() {
 
     private fun setupRealm() {
         RealmHelper.init(this)
+    }
+
+    private fun setupRxDebug() {
+        // Enable RxJava assembly stack collection, to make RxJava crash reports clear and unique
+        // Make sure this is called AFTER setting up any Crash reporting mechanism as Crashlytics
+        RxJava2Debug.enableRxJava2AssemblyTracking()
     }
 }
