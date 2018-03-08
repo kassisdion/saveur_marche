@@ -39,6 +39,7 @@ class LaunchActivity : BaseActivity(), LaunchContract.View {
     */
     override fun redirectToMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     /*
