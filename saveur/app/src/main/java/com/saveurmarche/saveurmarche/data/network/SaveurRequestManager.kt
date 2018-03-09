@@ -14,9 +14,6 @@ class SaveurRequestManager(private val service: Services.ApiService,
 
         return service
                 .getMarketsUrl(oauthHeader, preferenceManager.lastJsonFetchData)
-                .doOnSuccess {
-                    preferenceManager.lastJsonFetchData = System.currentTimeMillis() / 1000
-                }
     }
 
     fun getMarketsFile(url: String): Single<MarketFileResponse> {

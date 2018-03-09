@@ -23,7 +23,7 @@ class DatabaseModule {
      */
     @DataScope
     @Provides
-    fun provideMarketManager(requestManager: SaveurRequestManager): MarketsManager {
-        return MarketsManager(requestManager)
+    fun provideMarketManager(requestManager: SaveurRequestManager, preferenceManager: SaveurPreferenceManager): MarketsManager {
+        return MarketsManager(requestManager, preferenceManager)
     }
 }
