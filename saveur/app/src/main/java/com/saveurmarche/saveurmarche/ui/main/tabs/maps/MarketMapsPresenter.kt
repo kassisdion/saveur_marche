@@ -1,13 +1,13 @@
 package com.saveurmarche.saveurmarche.ui.main.tabs.maps
 
-import android.location.Location
-import android.os.Bundle
+import android.text.Editable
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.google.android.gms.maps.model.Marker
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.saveurmarche.saveurmarche.data.database.entity.Market
 import com.saveurmarche.saveurmarche.data.manager.MarketsManager
+import com.saveurmarche.saveurmarche.data.matcher.impl.MarketMatcher
 import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.ui.base.BasePresenter
 import javax.inject.Inject
@@ -28,7 +28,14 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
 
     /*
     ************************************************************************************************
-    **  MarketsMapContract.Presenter implementation
+    ** Private field
+    ************************************************************************************************
+     */
+    private var mData: List<Market>? = null
+
+    /*
+    ************************************************************************************************
+    ** MarketsMapContract.Presenter implementation
     ************************************************************************************************
      */
     override fun setupView() {
@@ -47,18 +54,7 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
 
     override fun onGoogleMapRetrieved() {
         view?.setupMapView(MIN_TIME, MIN_DIST)
-
-        registerDisposable(marketsManager.getLocalMarket()
-                .doOnSubscribe({ view?.showLoading(true) })
-                .doAfterTerminate({ view?.showLoading(false) })
-                .subscribe(
-                        {
-                            view?.drawMarketOnMap(ArrayList(it))
-                        },
-                        {
-                            logE("MarketMapsPresenter", { "setupView > getLocalMarket > fail" }, RxJava2Debug.getEnhancedStackTrace(it))
-                        }
-                ))
+        fetchData()
     }
 
     override fun onGeoPermissionGranted(response: List<PermissionGrantedResponse>?) {
@@ -66,5 +62,41 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
     }
 
     override fun onGeoPermissionDenied(response: List<PermissionDeniedResponse>) {
+    }
+
+    override fun onFilterCtaClicked() {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+
+    override fun onBeforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onAfterTextChanged(s: Editable?) {
+        mData?.let {
+            val newData = it.filter { MarketMatcher.all(s?.toString()?.toLowerCase() ?: "")(it) }
+            view?.drawMarketOnMap(ArrayList(newData))
+        }
+    }
+
+    /*
+    ************************************************************************************************
+    ** Private method
+    ************************************************************************************************
+     */
+    private fun fetchData() {
+        registerDisposable(marketsManager.getLocalMarket()
+                .doOnSubscribe({ view?.showLoading(true) })
+                .doAfterTerminate({ view?.showLoading(false) })
+                .subscribe(
+                        {
+                            mData = it
+                            view?.drawMarketOnMap(ArrayList(it))
+                        },
+                        {
+                            logE("MarketMapsPresenter", { "setupView > getLocalMarket > fail" }, RxJava2Debug.getEnhancedStackTrace(it))
+                        }
+                ))
     }
 }

@@ -4,6 +4,7 @@ import android.text.Editable
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.saveurmarche.saveurmarche.data.database.entity.Market
 import com.saveurmarche.saveurmarche.data.manager.MarketsManager
+import com.saveurmarche.saveurmarche.data.matcher.impl.MarketMatcher
 import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.ui.base.BasePresenter
 import javax.inject.Inject
@@ -43,16 +44,7 @@ class MarketsPresenter @Inject constructor(private val marketManager: MarketsMan
     }
 
     override fun onAfterTextChanged(s: Editable?) {
-        val newData = mData.filter { market ->
-            val input = s?.toString()?.toLowerCase() ?: ""
-
-            val nameMatch = market.name.toLowerCase().contains(input)
-            val descMatch = market.description.toLowerCase().contains(input)
-            val cityMatch = market.address!!.city.toLowerCase().contains(input)
-            val countryMatch = market.address!!.country.toLowerCase().contains(input)
-
-            nameMatch || descMatch || cityMatch || countryMatch
-        }
+        val newData = mData.filter { MarketMatcher.all(s?.toString()?.toLowerCase() ?: "")(it) }
 
         view?.setData(newData)
     }

@@ -2,7 +2,9 @@ package com.saveurmarche.saveurmarche.ui.main.tabs.maps
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -18,6 +20,10 @@ import com.saveurmarche.saveurmarche.helper.permission.GeoPermissionHelper
 import com.saveurmarche.saveurmarche.helper.permission.SimplePermissionsListener
 import com.saveurmarche.saveurmarche.ui.base.BaseFragment
 import javax.inject.Inject
+import android.location.LocationManager
+import android.support.v7.widget.AppCompatEditText
+import android.text.Editable
+import android.text.TextWatcher
 
 class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
 
@@ -28,6 +34,10 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
     */
     private lateinit var mMap: MarketMap
     private lateinit var mProgressView: View
+    private lateinit var mSearchBlock: View
+    private lateinit var mMyLocationButton: FloatingActionButton
+    private lateinit var mAppCompatEditText: AppCompatEditText
+    private lateinit var mFilterCta: View
 
     private var mMapView: MapView? = null
 
@@ -60,17 +70,15 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
 
     override fun init(rootView: View, savedInstanceState: Bundle?) {
         setupPresenter()
-        with(rootView) {
-            mMapView = findViewById(com.saveurmarche.saveurmarche.R.id.mapView)
-            mProgressView = findViewById(com.saveurmarche.saveurmarche.R.id.progress)
-            initMapView(savedInstanceState)
-        }
+
+        retrieveWidget(rootView)
+        setupView(savedInstanceState)
+
         mPresenter.setupView()
     }
 
     override fun onResume() {
         super.onResume()
-
         mMapView?.onResume()
     }
 
@@ -79,6 +87,7 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
 
         super.onPause()
     }
+
 
     override fun onDestroy() {
         mMapView?.onDestroy()
@@ -111,7 +120,7 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
 
     override fun drawMarketOnMap(data: ArrayList<Market>) {
         context?.let {
-            mMap.draw(it, data)
+            mMap.draw(data)
         }
     }
 
@@ -136,12 +145,15 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
         mMapView?.let {
             //retrieve GoogleMap from mapView
             it.getMapAsync({ googleMap ->
-                //Init the mapView
-                googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style))
+                context?.let {
+                    //Init the mapView
+                    googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style))
+                    googleMap.uiSettings.isMyLocationButtonEnabled = false
 
-                mMap = MarketMap(googleMap)
+                    mMap = MarketMap(it, googleMap)
 
-                mPresenter.onGoogleMapRetrieved()
+                    mPresenter.onGoogleMapRetrieved()
+                }
             })
         }
     }
@@ -178,6 +190,7 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
             with(mMap) {
                 googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
                 googleMap.isMyLocationEnabled = true
+                mMyLocationButton.setOnClickListener({ onMyLocationClicked() })
             }
         }
     }
@@ -192,14 +205,57 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
         mPresenter.onAttachView(this)
     }
 
-    private fun initMapView(savedInstanceState: Bundle?) {
-        mMapView?.let {
-            try {
-                it.onCreate(savedInstanceState)
-                it.onResume()//We display the map immediately
-            } catch (e: android.content.res.Resources.NotFoundException) {
-                //DO want you want, fk instant run
+    private fun setupView(savedInstanceState: Bundle?) {
+        //Setup filter CTA
+        mFilterCta.setOnClickListener({
+            mPresenter.onFilterCtaClicked()
+        })
+
+        //Setup editText
+        mAppCompatEditText.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                mPresenter.onTextChanged(s, start, before, count)
             }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                mPresenter.onBeforeTextChanged(s, start, count, after)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                mPresenter.onAfterTextChanged(s)
+            }
+        })
+
+        //init MapView
+        mMapView?.let {
+            it.onCreate(savedInstanceState)
+            it.onResume()//We display the map immediately
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun onMyLocationClicked() {
+        context?.let {
+            //Acquire a reference to the system Location Manager
+            val locationManager = it.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+
+            //Acquire the user's location
+            val selfLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+
+            //Move the map to the user's location
+            mMap.moveCamera(selfLocation.latitude, selfLocation.longitude, zoom = 15f)
+        }
+    }
+
+    private fun retrieveWidget(rootView: View) {
+        with(rootView) {
+            mFilterCta = findViewById(R.id.SearchImageViewFilter)
+            mMapView = findViewById(R.id.mapView)
+            mProgressView = findViewById(R.id.progress)
+            mSearchBlock = findViewById(R.id.search_block)
+            mMyLocationButton = findViewById(R.id.myLocationButton)
+            mAppCompatEditText = rootView.findViewById(R.id.SearchAppCompatEditText)
         }
     }
 }

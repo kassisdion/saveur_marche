@@ -13,7 +13,6 @@ import io.reactivex.schedulers.Schedulers
 
 class MarketsManager(private val requestManager: SaveurRequestManager,
                      private val preferenceManager: SaveurPreferenceManager) {
-
     /*
     ************************************************************************************************
     ** Public fun
@@ -35,6 +34,7 @@ class MarketsManager(private val requestManager: SaveurRequestManager,
     fun getLocalMarket(): Maybe<List<Market>> {
         return RxRealmHelper.getList(Function { realm -> realm.where(Market::class.java).findAll() })
     }
+
 
     /*
     ************************************************************************************************

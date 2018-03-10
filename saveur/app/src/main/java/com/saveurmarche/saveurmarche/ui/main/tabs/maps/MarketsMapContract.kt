@@ -1,5 +1,6 @@
 package com.saveurmarche.saveurmarche.ui.main.tabs.maps
 
+import android.text.Editable
 import com.google.android.gms.maps.model.Marker
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
@@ -24,5 +25,9 @@ interface MarketsMapContract {
         fun onGeoPermissionGranted(response: List<PermissionGrantedResponse>?)
         fun onGeoPermissionDenied(response: List<PermissionDeniedResponse>)
         fun setupView()
+        fun onFilterCtaClicked()
+        fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
+        fun onBeforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
+        fun onAfterTextChanged(s: Editable?)
     }
 }

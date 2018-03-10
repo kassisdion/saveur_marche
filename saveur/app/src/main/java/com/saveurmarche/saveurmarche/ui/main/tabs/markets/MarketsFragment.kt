@@ -58,7 +58,7 @@ class MarketsFragment : BaseFragment(), MarketsContract.View {
 
     override fun init(rootView: View, savedInstanceState: Bundle?) {
         setupPresenter()
-        setupWidget(rootView)
+        retrieveWidget(rootView)
         setupView()
 
         mPresenter.setupView()
@@ -92,12 +92,14 @@ class MarketsFragment : BaseFragment(), MarketsContract.View {
         mPresenter.onAttachView(this)
     }
 
-    private fun setupWidget(rootView: View) {
-        mFilterCta = rootView.findViewById(R.id.SearchImageViewFilter)
-        mRecyclerView = rootView.findViewById(R.id.MarketsRecyclerView)
-        mSwipeRefreshLayout = rootView.findViewById(R.id.MarketsSwipeRefreshLayout)
-        mAppCompatEditText = rootView.findViewById(R.id.SearchAppCompatEditText)
-        mLoader = rootView.findViewById(R.id.MarketsLoading)
+    private fun retrieveWidget(rootView: View) {
+        with(rootView) {
+            mFilterCta = findViewById(R.id.SearchImageViewFilter)
+            mRecyclerView = findViewById(R.id.MarketsRecyclerView)
+            mSwipeRefreshLayout = findViewById(R.id.MarketsSwipeRefreshLayout)
+            mAppCompatEditText = findViewById(R.id.SearchAppCompatEditText)
+            mLoader = findViewById(R.id.MarketsLoading)
+        }
     }
 
     private fun setupView() {

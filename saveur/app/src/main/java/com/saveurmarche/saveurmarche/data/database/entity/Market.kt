@@ -1,5 +1,6 @@
 package com.saveurmarche.saveurmarche.data.database.entity
 
+import com.saveurmarche.saveurmarche.data.database.BaseEntity
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
@@ -11,4 +12,4 @@ open class Market(@PrimaryKey var id: String = "",
                   var type: String? = null,
                   var exhibitors: Long? = null,
                   var productDescription: String = "",
-                  var name: String = "") : RealmObject()
+                  var name: String = "") : BaseEntity, RealmObject()

@@ -25,15 +25,12 @@ class MainActivity : BaseActivity() {
      */
     private val mItems = hashMapOf(
             R.id.action_maps to object : BarItem() {
-                override fun getFragment(): Fragment {
-                    return MarketsMapFragment.newInstance()
-                }
+                override val fragment: Fragment
+                    get() = MarketsMapFragment.newInstance()
             },
             R.id.action_market to object : BarItem() {
-                override fun getFragment(): Fragment {
-                    return MarketsFragment.newInstance()
-                }
-
+                override val fragment: Fragment
+                    get() = MarketsFragment.newInstance()
             }
     )
 
@@ -108,22 +105,22 @@ class MainActivity : BaseActivity() {
     }
 
     private fun selectFragment(item: MenuItem) {
-        if (mSelectedItem != item.itemId) {
+        val itemId = item.itemId
+
+        if (mSelectedItem != itemId) {
             // update selected item
-            mSelectedItem = item.itemId
+            mSelectedItem = itemId
 
             // uncheck the other items.
-            for (i in 0 until mBottomNavigationView.menu.size() - 1) {
-                val menuItem = mBottomNavigationView.menu.getItem(i)
-                menuItem.isChecked = (menuItem.itemId == item.itemId)
-            }
+            (0 until mBottomNavigationView.menu.size() - 1)
+                    .map { mBottomNavigationView.menu.getItem(it) }
+                    .forEach { it.isChecked = (it.itemId == itemId) }
 
+            //Update toolbar title
             updateToolbarText(item.title)
 
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.MainActivityContainer, mItems[item.itemId]!!.fragment)
-                    .commit()
+            //Show fragment link to the selected item
+            showFragment(itemId)
         }
     }
 
@@ -131,5 +128,26 @@ class MainActivity : BaseActivity() {
         supportActionBar?.let {
             it.title = text
         }
+    }
+
+    private fun showFragment(itemId: Int) {
+        val containerId = R.id.MainActivityContainer
+        val tag = "$itemId"
+        val transaction = supportFragmentManager.beginTransaction()
+
+        //Hide old one
+        supportFragmentManager.findFragmentById(containerId)?.let {
+            transaction.hide(it)
+        }
+
+        //Show new fragment
+        supportFragmentManager.findFragmentByTag(tag).let {
+            when (it) {
+                null -> transaction.add(containerId, mItems[itemId]!!.fragment, tag)
+                else  -> transaction.show(it)
+            }
+        }
+
+        transaction.commit()
     }
 }
