@@ -1,6 +1,6 @@
-package com.saveurmarche.saveurmarche.ui.launch
+package com.saveurmarche.saveurmarche.ui.view.launch
 
-import com.saveurmarche.saveurmarche.ui.base.BaseView
+import com.saveurmarche.saveurmarche.ui.view.base.BaseView
 
 interface LaunchContract {
     interface View : BaseView {

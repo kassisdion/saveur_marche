@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.main.process
+package com.saveurmarche.saveurmarche.ui.view.main.process
 
 import android.os.Build
 import android.os.Bundle
@@ -9,9 +9,9 @@ import android.transition.Transition
 import android.view.MenuItem
 import android.view.Window
 import com.saveurmarche.saveurmarche.R
-import com.saveurmarche.saveurmarche.ui.base.BaseActivity
-import com.saveurmarche.saveurmarche.ui.main.tabs.maps.MarketsMapFragment
-import com.saveurmarche.saveurmarche.ui.main.tabs.markets.MarketsFragment
+import com.saveurmarche.saveurmarche.ui.view.base.BaseActivity
+import com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.MarketsMapFragment
+import com.saveurmarche.saveurmarche.ui.view.main.tabs.markets.MarketsFragment
 
 class MainActivity : BaseActivity() {
     companion object {

@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.main.tabs.markets
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.markets
 
 import android.text.Editable
 import com.akaita.java.rxjava2debug.RxJava2Debug
@@ -6,7 +6,7 @@ import com.saveurmarche.saveurmarche.data.database.entity.Market
 import com.saveurmarche.saveurmarche.data.manager.MarketsManager
 import com.saveurmarche.saveurmarche.data.matcher.impl.MarketMatcher
 import com.saveurmarche.saveurmarche.helper.logE
-import com.saveurmarche.saveurmarche.ui.base.BasePresenter
+import com.saveurmarche.saveurmarche.ui.view.base.BasePresenter
 import javax.inject.Inject
 
 class MarketsPresenter @Inject constructor(private val marketManager: MarketsManager) :

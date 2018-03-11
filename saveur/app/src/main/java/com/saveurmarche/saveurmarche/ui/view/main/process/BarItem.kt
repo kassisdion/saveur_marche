@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.main.process
+package com.saveurmarche.saveurmarche.ui.view.main.process
 
 import android.support.v4.app.Fragment
 

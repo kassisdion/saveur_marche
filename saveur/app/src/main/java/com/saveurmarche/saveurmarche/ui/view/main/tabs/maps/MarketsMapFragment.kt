@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.main.tabs.maps
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.maps
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -18,7 +18,7 @@ import com.saveurmarche.saveurmarche.helper.logD
 import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.helper.permission.GeoPermissionHelper
 import com.saveurmarche.saveurmarche.helper.permission.SimplePermissionsListener
-import com.saveurmarche.saveurmarche.ui.base.BaseFragment
+import com.saveurmarche.saveurmarche.ui.view.base.BaseFragment
 import javax.inject.Inject
 import android.location.LocationManager
 import android.support.v7.widget.AppCompatEditText

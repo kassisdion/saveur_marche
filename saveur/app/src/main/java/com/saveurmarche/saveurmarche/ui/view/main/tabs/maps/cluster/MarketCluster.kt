@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.main.tabs.maps.cluster
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.cluster
 
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem

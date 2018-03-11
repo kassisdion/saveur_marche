@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.main.tabs.markets
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.markets
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder

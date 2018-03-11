@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.main.tabs.markets
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.markets
 
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.saveurmarche.saveurmarche.R
 import com.saveurmarche.saveurmarche.SaveurApplication
 import com.saveurmarche.saveurmarche.data.database.entity.Market
-import com.saveurmarche.saveurmarche.ui.base.BaseFragment
+import com.saveurmarche.saveurmarche.ui.view.base.BaseFragment
 import javax.inject.Inject
 
 class MarketsFragment : BaseFragment(), MarketsContract.View {

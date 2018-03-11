@@ -1,29 +1,40 @@
-package com.saveurmarche.saveurmarche.ui.main.tabs.maps
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.maps
 
 import android.content.Context
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.saveurmarche.saveurmarche.data.database.entity.Market
-import com.saveurmarche.saveurmarche.ui.main.tabs.maps.cluster.MarketCluster
-import com.saveurmarche.saveurmarche.ui.main.tabs.maps.cluster.MarketClusterRenderer
+import com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.cluster.MarketCluster
+import com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.cluster.MarketClusterRenderer
 
 class MarketMap(context: Context, val googleMap: GoogleMap) {
-
+    /*
+    ************************************************************************************************
+    ** Private field
+    ************************************************************************************************
+    */
     private var mClusterManager: ClusterManager<MarketCluster> = ClusterManager(context, googleMap)
 
+    /*
+    ************************************************************************************************
+    ** Constructor
+    ************************************************************************************************
+    */
     init {
         //Init cluster
         mClusterManager.renderer = MarketClusterRenderer(context, googleMap, mClusterManager)
+        mClusterManager.setOnClusterClickListener { cluster -> onClusterClick(cluster) }
+        mClusterManager.setOnClusterItemClickListener { clusterItem -> onClusterItemClickListener(clusterItem) }
 
         //Init map
         googleMap.setOnInfoWindowClickListener(mClusterManager)
         googleMap.setInfoWindowAdapter(mClusterManager.markerManager)
         googleMap.setOnCameraIdleListener(mClusterManager)
         googleMap.setOnMarkerClickListener(mClusterManager)
-
     }
 
     /*
@@ -65,5 +76,18 @@ class MarketMap(context: Context, val googleMap: GoogleMap) {
                 }
                 .build()
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+    }
+
+    /*
+    ************************************************************************************************
+    ** Private fun
+    ************************************************************************************************
+    */
+    private fun onClusterClick(cluster: Cluster<MarketCluster>): Boolean {
+        return true
+    }
+
+    private fun onClusterItemClickListener(clusterItem: MarketCluster): Boolean {
+        return true
     }
 }

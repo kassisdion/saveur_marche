@@ -1,8 +1,8 @@
-package com.saveurmarche.saveurmarche.ui.main.tabs.markets
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.markets
 
 import android.text.Editable
 import com.saveurmarche.saveurmarche.data.database.entity.Market
-import com.saveurmarche.saveurmarche.ui.base.BaseView
+import com.saveurmarche.saveurmarche.ui.view.base.BaseView
 
 interface MarketsContract {
     interface View : BaseView {

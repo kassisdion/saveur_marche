@@ -1,11 +1,11 @@
-package com.saveurmarche.saveurmarche.ui.launch
+package com.saveurmarche.saveurmarche.ui.view.launch
 
 import android.content.Intent
 import android.os.Bundle
 import com.saveurmarche.saveurmarche.R
 import com.saveurmarche.saveurmarche.SaveurApplication
-import com.saveurmarche.saveurmarche.ui.base.BaseActivity
-import com.saveurmarche.saveurmarche.ui.main.process.MainActivity
+import com.saveurmarche.saveurmarche.ui.view.base.BaseActivity
+import com.saveurmarche.saveurmarche.ui.view.main.process.MainActivity
 import javax.inject.Inject
 
 class LaunchActivity : BaseActivity(), LaunchContract.View {

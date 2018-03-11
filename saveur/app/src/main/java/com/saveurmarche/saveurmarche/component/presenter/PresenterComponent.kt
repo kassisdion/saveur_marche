@@ -1,8 +1,8 @@
 package com.saveurmarche.saveurmarche.component.presenter
 
-import com.saveurmarche.saveurmarche.ui.launch.LaunchActivity
-import com.saveurmarche.saveurmarche.ui.main.tabs.maps.MarketsMapFragment
-import com.saveurmarche.saveurmarche.ui.main.tabs.markets.MarketsFragment
+import com.saveurmarche.saveurmarche.ui.view.launch.LaunchActivity
+import com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.MarketsMapFragment
+import com.saveurmarche.saveurmarche.ui.view.main.tabs.markets.MarketsFragment
 import dagger.Subcomponent
 
 @PresenterScope

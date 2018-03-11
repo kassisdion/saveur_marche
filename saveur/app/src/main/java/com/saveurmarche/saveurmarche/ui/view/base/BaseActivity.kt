@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.base
+package com.saveurmarche.saveurmarche.ui.view.base
 
 import android.annotation.TargetApi
 import android.os.Build

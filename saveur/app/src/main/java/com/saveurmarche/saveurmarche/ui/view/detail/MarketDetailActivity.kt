@@ -1,9 +1,9 @@
-package com.saveurmarche.saveurmarche.ui.detail
+package com.saveurmarche.saveurmarche.ui.view.detail
 
 import android.os.Bundle
 import com.saveurmarche.saveurmarche.R
 import com.saveurmarche.saveurmarche.data.database.entity.Market
-import com.saveurmarche.saveurmarche.ui.base.BaseActivity
+import com.saveurmarche.saveurmarche.ui.view.base.BaseActivity
 
 class MarketDetailActivity : BaseActivity() {
     companion object Builder {

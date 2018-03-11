@@ -1,11 +1,11 @@
-package com.saveurmarche.saveurmarche.ui.main.tabs.maps
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.maps
 
 import android.text.Editable
 import com.google.android.gms.maps.model.Marker
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.saveurmarche.saveurmarche.data.database.entity.Market
-import com.saveurmarche.saveurmarche.ui.base.BaseView
+import com.saveurmarche.saveurmarche.ui.view.base.BaseView
 
 interface MarketsMapContract {
 
