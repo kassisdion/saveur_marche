@@ -68,6 +68,7 @@
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:fabSize="mini"
-        app:pressedTranslationZ="12dp" />
+        app:pressedTranslationZ="12dp"
+        android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

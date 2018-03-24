@@ -27,8 +27,6 @@ object GeoPermissionHelper {
         fun onPositiveClickListener()
 
         fun onNegativeClickListener()
-
-        fun onDialogDismissed()
     }
 
     /**
@@ -50,9 +48,9 @@ object GeoPermissionHelper {
                             askWithDexter(activity, permissionListener)
                         }
 
-                        override fun onNegativeClickListener() {}
-
-                        override fun onDialogDismissed() {}
+                        override fun onNegativeClickListener() {
+                            permissionListener.onPermissionDenied(emptyList())
+                        }
                     })
             else -> askWithDexter(activity, permissionListener)
         }
@@ -82,7 +80,9 @@ object GeoPermissionHelper {
             dialogListener.onNegativeClickListener()
         }
 
-        dialog.setOnDismissListener { _ -> dialogListener.onDialogDismissed() }
+
+        dialog.setCanceledOnTouchOutside(false)
+
         dialog.show()
 
         return dialog
@@ -115,10 +115,6 @@ object GeoPermissionHelper {
                                     }
 
                                     override fun onNegativeClickListener() {
-                                        token?.cancelPermissionRequest()
-                                    }
-
-                                    override fun onDialogDismissed() {
                                         token?.cancelPermissionRequest()
                                     }
                                 })

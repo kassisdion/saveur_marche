@@ -144,9 +144,10 @@ class MainActivity : BaseActivity() {
         supportFragmentManager.findFragmentByTag(tag).let {
             when (it) {
                 null -> transaction.add(containerId, mItems[itemId]!!.fragment, tag)
-                else  -> transaction.show(it)
+                else -> transaction.show(it)
             }
         }
+
 
         transaction.commit()
     }

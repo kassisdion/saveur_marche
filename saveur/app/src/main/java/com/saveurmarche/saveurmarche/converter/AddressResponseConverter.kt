@@ -5,7 +5,7 @@ import com.saveurmarche.saveurmarche.data.database.entity.MarketAddress
 
 import io.reactivex.functions.Function
 
-class AdressResponseConverter : Function<MarketFileResponse.AdressResponse, MarketAddress> {
+class AddressResponseConverter : Function<MarketFileResponse.AdressResponse, MarketAddress> {
     @Throws(Exception::class)
     override fun apply(response: MarketFileResponse.AdressResponse): MarketAddress {
         return MarketAddress(

@@ -7,12 +7,18 @@
     <string name="permission_geoloc_action_negative">Non merci</string>
 
     <!-- MainActivity -->
-    <string name="map_item_title">Plan</string>
-    <string name="market_item_title">Marchés</string>
+    <string name="map_item_title">Carte</string>
+    <string name="market_item_title">Liste</string>
 
     <!-- LaunchActivity -->
     <string name="launch_loading_text">chargement en cours</string>
 
     <!-- MarketList -->
     <string name="marketList_search">Chercher par code postal, nom, etc</string>
+    <string name="see_market_detail">Voir la fiche</string>
+
+    <!-- MarketDetail -->
+    <string name="marketdetail_header_presentation">Les présentations</string>
+    <string name="marketdetail_header_products">Ce qu\'il propose</string>
+    <string name="marketdetail_header_hours">Information et horaires</string>
 </resources>

@@ -58,10 +58,6 @@
     <style name="AppTheme.Toolbar">
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="titleTextColor">@color/titleColorPrimary</item>
-        <item name="android:textColorHint">@color/colorHint</item>
-        <item name="android:editTextColor">@color/textColorPrimary</item>
     </style>
 
     <!-- Alert Dialog (translucent) -->

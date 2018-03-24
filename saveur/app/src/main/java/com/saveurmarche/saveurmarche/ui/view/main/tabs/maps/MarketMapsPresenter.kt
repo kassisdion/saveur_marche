@@ -32,6 +32,7 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
     ************************************************************************************************
      */
     private var mData: List<Market>? = null
+    private var mHasPermission = false
 
     /*
     ************************************************************************************************
@@ -53,15 +54,18 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
     }
 
     override fun onGoogleMapRetrieved() {
-        view?.setupMapView(MIN_TIME, MIN_DIST)
+        view?.setupMapView(MIN_TIME, MIN_DIST, mHasPermission)
         fetchData()
     }
 
     override fun onGeoPermissionGranted(response: List<PermissionGrantedResponse>?) {
+        mHasPermission = true
         view?.retrieveGoogleMap()
     }
 
     override fun onGeoPermissionDenied(response: List<PermissionDeniedResponse>) {
+        mHasPermission = false
+        view?.retrieveGoogleMap()
     }
 
     override fun onFilterCtaClicked() {
@@ -78,6 +82,10 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
             val newData = it.filter { MarketMatcher.all(s?.toString()?.toLowerCase() ?: "")(it) }
             view?.drawMarketOnMap(ArrayList(newData))
         }
+    }
+
+    override fun onMyLocationClicked() {
+        view?.centerMapOnUser(ZOOM)
     }
 
     /*

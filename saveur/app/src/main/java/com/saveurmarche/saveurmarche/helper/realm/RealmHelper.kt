@@ -35,8 +35,7 @@ object RealmHelper {
         Realm.init(context.applicationContext)
 
         //Set default configuration
-        val realmConfiguration = defaultConfiguration
-        Realm.setDefaultConfiguration(realmConfiguration)
+        Realm.setDefaultConfiguration(defaultConfiguration)
     }
 
     fun getDefaultInstance(): Realm {

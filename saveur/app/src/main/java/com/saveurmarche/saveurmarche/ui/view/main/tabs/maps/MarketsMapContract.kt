@@ -16,7 +16,8 @@ interface MarketsMapContract {
         fun navigateToMarketDetail(market: Market)
         fun retrieveGoogleMap()
         fun checkPermission()
-        fun setupMapView(minTime: Long, minDistance: Float)
+        fun setupMapView(minTime: Long, minDistance: Float, withLocation: Boolean)
+        fun centerMapOnUser(zoom: Float)
     }
 
     interface Presenter {
@@ -29,5 +30,6 @@ interface MarketsMapContract {
         fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
         fun onBeforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
         fun onAfterTextChanged(s: Editable?)
+        fun onMyLocationClicked()
     }
 }

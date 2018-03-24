@@ -9,14 +9,14 @@ class MarketResponseConverter : Function<MarketFileResponse.MarketResponse, Mark
     @Throws(Exception::class)
     override fun apply(response: MarketFileResponse.MarketResponse): Market {
         return Market(response.id,
-                response.description ?: "Aucune description du marché",
-                AdressResponseConverter().apply(response.address),
+                response.description,
+                AddressResponseConverter().apply(response.address),
                 response.webSiteUrl,
                 response.picture,
                 response.type,
                 response.exhibitors,
-                response.productDescription ?: "Aucune description des produits",
-                "NOM"
+                response.productDescription,
+                response.name
         )
     }
 }

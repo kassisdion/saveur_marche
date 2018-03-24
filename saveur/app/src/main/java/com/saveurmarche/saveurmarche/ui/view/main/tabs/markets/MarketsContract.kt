@@ -8,6 +8,7 @@ interface MarketsContract {
     interface View : BaseView {
         fun setData(newData: List<Market>)
         fun showLoading(show: Boolean)
+        fun redirectToMarketDetail(market: Market)
     }
 
     interface Presenter {

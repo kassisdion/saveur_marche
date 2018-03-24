@@ -88,7 +88,6 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
         super.onPause()
     }
 
-
     override fun onDestroy() {
         mMapView?.onDestroy()
 
@@ -184,14 +183,36 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
     }
 
     @SuppressLint("MissingPermission")
-    override fun setupMapView(minTime: Long, minDistance: Float) {
+    override fun setupMapView(minTime: Long, minDistance: Float, withLocation: Boolean) {
         context?.let {
             //Center the googleMap map on the userLocation
             with(mMap) {
                 googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-                googleMap.isMyLocationEnabled = true
-                mMyLocationButton.setOnClickListener({ onMyLocationClicked() })
+
+                if (withLocation) {
+                    googleMap.isMyLocationEnabled = true
+                    mMyLocationButton.visibility = View.VISIBLE
+                    mMyLocationButton.setOnClickListener({ onMyLocationClicked() })
+                } else {
+                    mMyLocationButton.visibility = View.GONE
+                    mMyLocationButton.setOnClickListener(null)
+                }
             }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun centerMapOnUser(zoom: Float) {
+        context?.let {
+            //Acquire a reference to the system Location Manager
+            val locationManager = it.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+
+            //Acquire the user's location
+            val selfLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+
+            //Move the map to the user's location
+            mMap.moveCamera(selfLocation.latitude, selfLocation.longitude, zoom = zoom)
         }
     }
 
@@ -233,19 +254,8 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
         }
     }
 
-    @SuppressLint("MissingPermission")
     private fun onMyLocationClicked() {
-        context?.let {
-            //Acquire a reference to the system Location Manager
-            val locationManager = it.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-
-            //Acquire the user's location
-            val selfLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
-
-            //Move the map to the user's location
-            mMap.moveCamera(selfLocation.latitude, selfLocation.longitude, zoom = 15f)
-        }
+        mPresenter.onMyLocationClicked()
     }
 
     private fun retrieveWidget(rootView: View) {

@@ -13,22 +13,36 @@ import com.saveurmarche.saveurmarche.R
 import com.saveurmarche.saveurmarche.SaveurApplication
 import com.saveurmarche.saveurmarche.data.database.entity.Market
 import com.saveurmarche.saveurmarche.ui.view.base.BaseFragment
+import com.saveurmarche.saveurmarche.ui.view.detail.MarketDetailActivity
 import javax.inject.Inject
 
 class MarketsFragment : BaseFragment(), MarketsContract.View {
-
     /*
     ************************************************************************************************
     ** Private field
     ************************************************************************************************
     */
     private val mAdapter = MarketAdapter()
+    private val mSearchTextListener = object : TextWatcher {
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            mPresenter.onTextChanged(s, start, before, count)
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            mPresenter.onBeforeTextChanged(s, start, count, after)
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            mPresenter.onAfterTextChanged(s)
+        }
+    }
 
     private lateinit var mFilterCta: View
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mAppCompatEditText: AppCompatEditText
     private lateinit var mLoader: View
+
     /*
     ************************************************************************************************
     ** Injection
@@ -64,6 +78,11 @@ class MarketsFragment : BaseFragment(), MarketsContract.View {
         mPresenter.setupView()
     }
 
+    override fun onDestroyView() {
+        mAppCompatEditText.removeTextChangedListener(mSearchTextListener)
+        super.onDestroyView()
+    }
+
     /*
     ************************************************************************************************
     ** MarketsContract.View implementation
@@ -79,6 +98,12 @@ class MarketsFragment : BaseFragment(), MarketsContract.View {
         } else {
             mSwipeRefreshLayout.isRefreshing = false
             mLoader.visibility = View.INVISIBLE
+        }
+    }
+
+    override fun redirectToMarketDetail(market: Market) {
+        mContext?.let {
+            startActivity(MarketDetailActivity.newInstance(it, market))
         }
     }
 
@@ -122,21 +147,11 @@ class MarketsFragment : BaseFragment(), MarketsContract.View {
         }
 
         //Setup swipe refresh
-        mSwipeRefreshLayout.setOnRefreshListener { mPresenter.onSwipeRefreshLayoutActivated() }
+        mSwipeRefreshLayout.setOnRefreshListener {
+            mPresenter.onSwipeRefreshLayoutActivated()
+        }
 
         //Setup editText
-        mAppCompatEditText.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                mPresenter.onTextChanged(s, start, before, count)
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                mPresenter.onBeforeTextChanged(s, start, count, after)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                mPresenter.onAfterTextChanged(s)
-            }
-        })
+        mAppCompatEditText.addTextChangedListener(mSearchTextListener)
     }
 }

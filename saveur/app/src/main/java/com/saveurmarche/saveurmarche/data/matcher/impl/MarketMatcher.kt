@@ -21,15 +21,15 @@ class MarketMatcher {
     }
 
     class DescMatcher(val data: String, val ignoreCase: Boolean = true) : Matcher<Market> {
-        override fun invoke(actual: Market): Boolean = actual.description.contains(data, ignoreCase)
+        override fun invoke(actual: Market): Boolean = actual.displayableDescription.contains(data, ignoreCase)
     }
 
     class NameMatcher(val data: String, val ignoreCase: Boolean = true) : Matcher<Market> {
-        override fun invoke(actual: Market): Boolean = actual.name.contains(data, ignoreCase)
+        override fun invoke(actual: Market): Boolean = actual.displayableName.contains(data, ignoreCase)
     }
 
     class ProductDescriptionMatcher(val data: String, val ignoreCase: Boolean = true) : Matcher<Market> {
-        override fun invoke(actual: Market): Boolean = actual.productDescription.contains(data, ignoreCase)
+        override fun invoke(actual: Market): Boolean = actual.displayableProductDescription.contains(data, ignoreCase)
     }
 
     class CityMatcher(val data: String, val ignoreCase: Boolean = true) : Matcher<Market> {

@@ -19,5 +19,6 @@
 
     <!-- App -->
     <color name="searchBarPlaceholderColor">#8A000000</color>
+    <color name="dividerColor">#EDF3F6</color>
 
 </resources>

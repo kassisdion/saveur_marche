@@ -46,6 +46,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 
+        <activity
+            android:name=".ui.view.detail.MarketDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
         <!-- Meta data-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"

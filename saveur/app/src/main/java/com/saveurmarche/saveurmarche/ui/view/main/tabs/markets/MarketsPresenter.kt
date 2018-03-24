@@ -35,6 +35,7 @@ class MarketsPresenter @Inject constructor(private val marketManager: MarketsMan
     }
 
     override fun onItemClicked(position: Int) {
+        view?.redirectToMarketDetail(mData[position])
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {

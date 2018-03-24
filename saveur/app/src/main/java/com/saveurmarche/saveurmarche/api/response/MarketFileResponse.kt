@@ -22,7 +22,9 @@ data class MarketFileResponse(@Json(name = "serial")
                               @Json(name = "exhibitors")
                               val exhibitors: Long? = null,
                               @Json(name = "product_description")
-                              val productDescription: String? = null)
+                              val productDescription: String? = null,
+                              @Json(name = "name")
+                              val name: String? = null)
 
     data class AdressResponse(@Json(name = "formatted_address")
                               val formatted_address: String,
