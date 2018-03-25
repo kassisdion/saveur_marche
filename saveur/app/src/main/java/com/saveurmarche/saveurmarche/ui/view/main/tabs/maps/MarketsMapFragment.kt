@@ -1,7 +1,6 @@
 package com.saveurmarche.saveurmarche.ui.view.main.tabs.maps
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -24,9 +23,16 @@ import android.location.LocationManager
 import android.support.v7.widget.AppCompatEditText
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.saveurmarche.saveurmarche.ui.view.detail.MarketDetailActivity
+import com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.impl.MarketMap
+import com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.impl.MarketMapListener
 
 class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
-
     /*
     ************************************************************************************************
     ** Private field
@@ -38,6 +44,13 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
     private lateinit var mMyLocationButton: FloatingActionButton
     private lateinit var mAppCompatEditText: AppCompatEditText
     private lateinit var mFilterCta: View
+
+    private lateinit var mDetailBlock: View
+    private lateinit var mDetailMarketImage: ImageView
+    private lateinit var mDetailMarketName: TextView
+    private lateinit var mDetailMarketDistance: TextView
+    private lateinit var mDetailMarketHour: TextView
+    private lateinit var mButtonClose: View
 
     private var mMapView: MapView? = null
 
@@ -124,15 +137,8 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
     }
 
     override fun navigateToMarketDetail(market: Market) {
-        context?.let {
-            with(market) {
-                AlertDialog.Builder(it)
-                        .setTitle(description)
-                        .setMessage(description)
-                        .setPositiveButton("Visiter") { _, _ -> }
-                        .setNegativeButton("Annuler") { _, _ -> }
-                        .show()
-            }
+        mContext?.let {
+            startActivity(MarketDetailActivity.newInstance(it, market))
         }
     }
 
@@ -149,7 +155,15 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
                     googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style))
                     googleMap.uiSettings.isMyLocationButtonEnabled = false
 
-                    mMap = MarketMap(it, googleMap)
+                    mMap = MarketMap(it, googleMap, object : MarketMapListener {
+                        override fun onMarketsClicked(items: MutableCollection<Market>) {
+                            mPresenter.onMarketsClicked(items)
+                        }
+
+                        override fun onMarketClicked(market: Market) {
+                            mPresenter.onMarketClicked(market)
+                        }
+                    })
 
                     mPresenter.onGoogleMapRetrieved()
                 }
@@ -216,6 +230,33 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
         }
     }
 
+    override fun setMarketDetailVisibility(visible: Boolean) {
+        mDetailBlock.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    override fun setMarketDetailName(name: String) {
+        mDetailMarketName.text = name
+    }
+
+    override fun setMarketDetailHour(hour: String) {
+        mDetailMarketHour.text = hour
+    }
+
+    override fun setMarketDetailImage(url: String?) {
+        context?.let {
+            Glide.with(it)
+                    .setDefaultRequestOptions(RequestOptions()
+                            .placeholder(R.drawable.ic_market_colorhint)
+                            .error(R.drawable.ic_market_colorhint))
+                    .load(url)
+                    .into(mDetailMarketImage)
+        }
+    }
+
+    override fun setMarketDetailDistance(distance: String) {
+        mDetailMarketDistance.text = distance
+    }
+
     /*
     ************************************************************************************************
     ** Private fun
@@ -252,6 +293,10 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
             it.onCreate(savedInstanceState)
             it.onResume()//We display the map immediately
         }
+
+        //Setup detail block
+        mDetailBlock.setOnClickListener({ mPresenter.onMarketDetailClicked() })
+        mButtonClose.setOnClickListener({ mPresenter.onMarketDetailCloseClicked() })
     }
 
     private fun onMyLocationClicked() {
@@ -266,6 +311,13 @@ class MarketsMapFragment : BaseFragment(), MarketsMapContract.View {
             mSearchBlock = findViewById(R.id.search_block)
             mMyLocationButton = findViewById(R.id.myLocationButton)
             mAppCompatEditText = rootView.findViewById(R.id.SearchAppCompatEditText)
+
+            mDetailBlock = findViewById(R.id.detailBlock)
+            mDetailMarketImage = findViewById(R.id.itemMarketImage)
+            mDetailMarketName = findViewById(R.id.itemMarketTextViewName)
+            mDetailMarketDistance = findViewById(R.id.itemMarketTextViewDistance)
+            mDetailMarketHour = findViewById(R.id.itemMarketTextViewHour)
+            mButtonClose = findViewById(R.id.buttonClose)
         }
     }
 }

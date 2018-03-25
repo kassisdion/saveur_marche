@@ -33,6 +33,7 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
      */
     private var mData: List<Market>? = null
     private var mHasPermission = false
+    private var mLastDisplayedMarketDetail: Market? = null
 
     /*
     ************************************************************************************************
@@ -86,6 +87,31 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
 
     override fun onMyLocationClicked() {
         view?.centerMapOnUser(ZOOM)
+    }
+
+    override fun onMarketsClicked(markets: MutableCollection<Market>) {
+
+    }
+
+    override fun onMarketClicked(market: Market) {
+        mLastDisplayedMarketDetail = market
+
+        view?.setMarketDetailVisibility(true)
+        view?.setMarketDetailName(market.displayableName)
+        view?.setMarketDetailHour("9H00 - 12H00")
+        view?.setMarketDetailImage(market.picture)
+        view?.setMarketDetailDistance("Distance inconnue")
+    }
+
+    override fun onMarketDetailClicked() {
+        mLastDisplayedMarketDetail?.let {
+            view?.navigateToMarketDetail(it)
+        }
+    }
+
+    override fun onMarketDetailCloseClicked() {
+        mLastDisplayedMarketDetail = null
+        view?.setMarketDetailVisibility(false)
     }
 
     /*

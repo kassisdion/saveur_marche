@@ -1,4 +1,4 @@
-package com.saveurmarche.saveurmarche.ui.view.main.tabs.maps
+package com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.impl
 
 import android.content.Context
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -11,7 +11,9 @@ import com.saveurmarche.saveurmarche.data.database.entity.Market
 import com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.cluster.MarketCluster
 import com.saveurmarche.saveurmarche.ui.view.main.tabs.maps.cluster.MarketClusterRenderer
 
-class MarketMap(context: Context, val googleMap: GoogleMap) {
+class MarketMap(context: Context,
+                val googleMap: GoogleMap,
+                private val listener: MarketMapListener? = null) {
     /*
     ************************************************************************************************
     ** Private field
@@ -84,10 +86,12 @@ class MarketMap(context: Context, val googleMap: GoogleMap) {
     ************************************************************************************************
     */
     private fun onClusterClick(cluster: Cluster<MarketCluster>): Boolean {
+        listener?.onMarketsClicked(cluster.items.map { marketCluster -> marketCluster.market }.toMutableList())
         return true
     }
 
     private fun onClusterItemClickListener(clusterItem: MarketCluster): Boolean {
+        listener?.onMarketClicked(clusterItem.market)
         return true
     }
 }

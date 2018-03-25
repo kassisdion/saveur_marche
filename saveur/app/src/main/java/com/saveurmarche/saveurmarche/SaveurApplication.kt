@@ -10,8 +10,6 @@ import com.saveurmarche.saveurmarche.component.data.DataComponent
 import com.saveurmarche.saveurmarche.helper.realm.RealmHelper
 import com.akaita.java.rxjava2debug.RxJava2Debug
 
-
-
 class SaveurApplication : Application() {
     /*
     ************************************************************************************************

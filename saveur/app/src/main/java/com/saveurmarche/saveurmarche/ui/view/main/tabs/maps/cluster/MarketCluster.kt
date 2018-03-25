@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import com.saveurmarche.saveurmarche.data.database.entity.Market
 
-class MarketCluster(private val market: Market) : ClusterItem {
+class MarketCluster(val market: Market) : ClusterItem {
 
     /*
     ************************************************************************************************
