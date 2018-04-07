@@ -1,0 +1,15 @@
+def findDefaultProguardConfig() {
+    return file('proguard-rules.pro')
+}
+
+def findExtraProguardConfig() {
+    def proguardFileTree = fileTree(dir: 'proguards', include: ['*.pro']).asList().toArray()
+    println "note: [Searching proguard file]"
+    println proguardFileTree
+    return proguardFileTree
+}
+
+ext {
+    findExtraProguardConfig = this.&findExtraProguardConfig
+    findDefaultProguardConfig = this.&findDefaultProguardConfig
+}

@@ -13,10 +13,12 @@ interface MarketDetailContract {
         fun setProductDescription(displayableProductDescription: String)
         fun setDistance(distance: String)
         fun setMarketUrl(url: String)
+        fun openWebPage(url: String)
     }
 
     interface Presenter {
         fun setArgs(marketId: String)
+        fun onUrlTextViewClicked()
     }
 
 }

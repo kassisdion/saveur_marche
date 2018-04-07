@@ -62,12 +62,17 @@ class SaveurApplication : Application() {
     }
 
     private fun setupRealm() {
-        RealmHelper.init(this)
+        RealmHelper.init(this, { onDbDropped() })
     }
 
     private fun setupRxDebug() {
         // Enable RxJava assembly stack collection, to make RxJava crash reports clear and unique
         // Make sure this is called AFTER setting up any Crash reporting mechanism as Crashlytics
         RxJava2Debug.enableRxJava2AssemblyTracking()
+    }
+
+    private fun onDbDropped() {
+        //We've lost every data so wee need to reset the lastJsonFetchData
+        appComponent.pumpkinPreferencesManager().lastJsonFetchData = -1
     }
 }

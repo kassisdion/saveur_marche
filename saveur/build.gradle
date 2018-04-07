@@ -7,14 +7,14 @@ ext {
     buildToolsVersion = '26.0.2'
 
     // App dependencies
-    supportLibraryVersion = '27.1.0'
+    supportLibraryVersion = '27.1.1'
     dexterVersion = '4.2.0'
-    gmsVersion = '11.8.0'
+    gmsFirebaseVersion = '12.0.1'
     rxjavaVersion = '2.1.5'
     rxandroidVersion = '2.0.1'
     okhttp_version = '3.8.1'
-    retrofit_version = '2.3.0'
-    dagger_version = '2.14.1'
+    retrofit_version = '2.4.0'
+    dagger_version = '2.15'
     moshi_version = '1.5.0'
     glide_version = '4.2.0'
 
@@ -41,6 +41,7 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath 'com.google.gms:google-services:3.1.0'
     }
 }
 

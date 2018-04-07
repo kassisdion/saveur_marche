@@ -1,0 +1,5 @@
+def addQuote(input) {
+    return "\"" + input + "\""
+}
+
+ext.addQuote = this.&addQuote

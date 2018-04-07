@@ -80,6 +80,8 @@
                         android:background="@color/dividerColor" />
 
                     <TextView
+                        android:clickable="true"
+                        android:focusable="true"
                         android:textSize="12sp"
                         android:gravity="end"
                         android:id="@+id/marketDetailUrl"

@@ -1,9 +1,12 @@
 package com.saveurmarche.saveurmarche.ui.view.detail
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -11,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.saveurmarche.saveurmarche.R
 import com.saveurmarche.saveurmarche.SaveurApplication
 import com.saveurmarche.saveurmarche.data.database.entity.Market
+import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.ui.view.base.BaseActivity
 import javax.inject.Inject
 
@@ -58,6 +62,10 @@ class MarketDetailActivity : BaseActivity(), MarketDetailContract.View {
         setupToolbar()
 
         setupPresenter()
+
+        mUrlTextView.setOnClickListener({
+            mPresenter.onUrlTextViewClicked()
+        })
     }
 
     override fun getLayoutResource(): Int {
@@ -107,6 +115,13 @@ class MarketDetailActivity : BaseActivity(), MarketDetailContract.View {
         mProductDescriptionTextView.text = displayableProductDescription
     }
 
+    override fun openWebPage(url: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        } catch (ex: ActivityNotFoundException) {
+            logE(TAG, { "openWebPage > no intent" })
+        }
+    }
 
     /*
     ************************************************************************************************

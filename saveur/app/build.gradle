@@ -3,6 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'realm-android'
 apply plugin: 'kotlin-kapt'
 
+apply from: "${rootDir}/app/gradleScript/proguard_finder.gradle"
+apply from: "${rootDir}/app/gradleScript/utils.gradle"
+
 android {
     compileSdkVersion 27
 
@@ -24,11 +27,11 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "CLIENT_ID", "\"" + CLIENT_ID + "\""
-        buildConfigField "String", "CLIENT_SECRET", "\"" + CLIENT_SECRET + "\""
-        buildConfigField "String", "BASE_URL", "\"" + BASE_URL + "\""
-        buildConfigField "String", "GRANT_TYPE_CREDENTIALS", "\"" + GRANT_TYPE_CREDENTIALS + "\""
-        buildConfigField "String", "SCOPE_USER", "\"" + SCOPE_USER + "\""
+        buildConfigField "String", "CLIENT_ID", addQuote(CLIENT_ID)
+        buildConfigField "String", "CLIENT_SECRET", addQuote(CLIENT_SECRET)
+        buildConfigField "String", "BASE_URL", addQuote(BASE_URL)
+        buildConfigField "String", "GRANT_TYPE_CREDENTIALS", addQuote(GRANT_TYPE_CREDENTIALS)
+        buildConfigField "String", "SCOPE_USER", addQuote(SCOPE_USER)
     }
 
     packagingOptions {
@@ -55,14 +58,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            debuggable true
-            testCoverageEnabled true
-            versionNameSuffix "-SNAPSHOT"
-
-            buildConfigField "Boolean", "LOG", 'true'
-        }
-
         release {
             shrinkResources true
             minifyEnabled true
@@ -73,8 +68,16 @@ android {
             buildConfigField "Boolean", "LOG", 'false'
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')// Android default proguard files
-            proguardFiles file('proguard-rules.pro')// SaveurMarche proguard files
-            proguardFiles fileTree(dir: 'proguards', include: ['*.pro']).asList().toArray()//Library specific proguard
+            proguardFiles findDefaultProguardConfig()// App proguard files
+            proguardFiles findExtraProguardConfig()//Library specific proguard
+        }
+
+        debug {
+            debuggable true
+            testCoverageEnabled true
+            versionNameSuffix "-SNAPSHOT"
+
+            buildConfigField "Boolean", "LOG", 'true'
         }
     }
 
@@ -83,14 +86,6 @@ android {
         dev {
             applicationIdSuffix = ".dev"
             dimension "environement"
-        }
-    }
-
-    // Remove devRelease as it's not needed.
-    android.variantFilter { variant ->
-        if (variant.buildType.name == 'release'
-                && variant.flavors[0].name == 'dev') {
-            variant.ignore = true
         }
     }
 
@@ -108,23 +103,29 @@ dependencies {
     // App's dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$rootProject.ext.kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$rootProject.ext.kotlinVersion"
+
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:support-annotations:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
-    implementation "com.karumi:dexter:$rootProject.ext.dexterVersion"
-    implementation "com.android.support.test.espresso:espresso-idling-resource:$rootProject.ext.espressoVersion"
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
     implementation "com.android.support:multidex:1.0.3"
+
+    implementation "com.google.firebase:firebase-crash:$rootProject.ext.gmsFirebaseVersion"
+
+    //Recyclerview helper
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
+
+    //Permission helper
+    implementation "com.karumi:dexter:$rootProject.ext.dexterVersion"
 
     //Image loading
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glide_version"
     kapt "com.github.bumptech.glide:compiler:$rootProject.ext.glide_version"
 
     //Maps
-    implementation "com.google.android.gms:play-services-maps:$rootProject.ext.gmsVersion"
+    implementation "com.google.android.gms:play-services-maps:$rootProject.ext.gmsFirebaseVersion"
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
     //RX
@@ -175,3 +176,5 @@ dependencies {
     androidTestImplementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
     androidTestImplementation "com.android.support.test.espresso.idling:idling-concurrent:$rootProject.ext.espressoVersion"
 }
+
+apply plugin: 'com.google.gms.google-services'

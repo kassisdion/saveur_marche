@@ -1,0 +1,19 @@
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.Cipher
+
+def toAes(String input) {
+    return _toAes(input, OBFUSCATION_KEY, OBFUSCATION_IV)
+}
+
+def _toAes(String input, String rawKey, String iv) {
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+    IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes("UTF8"))
+    SecretKeySpec key = new SecretKeySpec(rawKey.getBytes("UTF8"), "AES")
+
+    cipher.init(Cipher.ENCRYPT_MODE, key, ivParameterSpec)
+    def result = cipher.doFinal(input.getBytes("UTF8"))
+    return Base64.getEncoder().encodeToString(result)
+}
+
+ext.toAes = this.&toAes

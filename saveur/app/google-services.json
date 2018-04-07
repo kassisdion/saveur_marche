@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "1076161928600",
+    "firebase_url": "https://saveur-25411.firebaseio.com",
+    "project_id": "saveur-25411",
+    "storage_bucket": "saveur-25411.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076161928600:android:f0a5977009d5135b",
+        "android_client_info": {
+          "package_name": "com.saveurmarche.saveurmarche"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076161928600-3df3n4ucl2s5a3rohna52gj5tccf3k10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqgXIIWwdRe2JQl3VPKMsqD1tHM5sTNak"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076161928600:android:f0a5977009d5135b",
+        "android_client_info": {
+          "package_name": "com.saveurmarche.saveurmarche.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076161928600-3df3n4ucl2s5a3rohna52gj5tccf3k10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqgXIIWwdRe2JQl3VPKMsqD1tHM5sTNak"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

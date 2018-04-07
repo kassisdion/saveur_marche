@@ -3,66 +3,82 @@ package com.saveurmarche.saveurmarche.helper.realm
 import android.content.Context
 import com.saveurmarche.saveurmarche.helper.logD
 import com.saveurmarche.saveurmarche.helper.logE
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmModel
+import io.realm.*
 import io.realm.exceptions.RealmFileException
 import io.realm.exceptions.RealmMigrationNeededException
 
-object RealmHelper {
-    private val TAG = RealmHelper::class.java.simpleName
+class RealmHelper {
 
-    /*
-    ************************************************************************************************
-    ** Private val
-    ************************************************************************************************
-    */
-    private val defaultConfiguration: RealmConfiguration by lazy {
-        RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .build()
-    }
+    companion object {
+        private val TAG = RealmHelper::class.java.simpleName
 
-    /*
-    ************************************************************************************************
-    ** Public fun
-    ************************************************************************************************
-    */
-    fun init(context: Context) {
-        logD(TAG) { "init" }
+        /*
+        ************************************************************************************************
+        ** Private val
+        ************************************************************************************************
+        */
+        private const val DB_VERSION = 1L
 
-        //Init
-        Realm.init(context.applicationContext)
-
-        //Set default configuration
-        Realm.setDefaultConfiguration(defaultConfiguration)
-    }
-
-    fun getDefaultInstance(): Realm {
-        val realm: Realm
-        try {
-            realm = Realm.getDefaultInstance()
-        } catch (e: RealmMigrationNeededException) {
-            logE(TAG, { "getDefaultInstance > fail" }, e)
-            throw e
-        } catch (e: NullPointerException) {
-            logE(TAG, { "getDefaultInstance > fail" }, e)
-            throw e
-        } catch (e: RealmFileException) {
-            logE(TAG, { "getDefaultInstance > fail" }, e)
-            throw e
+        private val defaultConfiguration: RealmConfiguration by lazy {
+            RealmConfiguration.Builder()
+                    .schemaVersion(DB_VERSION)
+                    .deleteRealmIfMigrationNeeded()
+                    .build()
         }
 
-        return realm
-    }
+        /*
+        ************************************************************************************************
+        ** Public fun
+        ************************************************************************************************
+        */
+        fun init(context: Context, onDataLost : () -> Unit) {
+            logD(TAG) { "init" }
 
-    fun deleteTable(realm: Realm,
-                    classToDelete: Class<out RealmModel>) {
-        logD(TAG) { "deleteTable > " + classToDelete.simpleName }
+            Realm.init(context.applicationContext)
+            Realm.setDefaultConfiguration(defaultConfiguration)
+            checkInstanceAndDeleteIfNeeded(onDataLost)
+        }
 
-        realm.executeTransaction { instance ->
-            //Simply drop the table
-            instance.delete(classToDelete)
+        fun getDefaultInstance(): Realm {
+            val realm: Realm
+            try {
+                realm = Realm.getDefaultInstance()
+            } catch (e: RealmMigrationNeededException) {
+                logE(TAG, { "getDefaultInstance > fail" }, e)
+                throw e
+            } catch (e: NullPointerException) {
+                logE(TAG, { "getDefaultInstance > fail" }, e)
+                throw e
+            } catch (e: RealmFileException) {
+                logE(TAG, { "getDefaultInstance > fail" }, e)
+                throw e
+            }
+
+            return realm
+        }
+
+        /*
+        ************************************************************************************************
+        ** Private fun
+        ************************************************************************************************
+        */
+        private fun checkInstanceAndDeleteIfNeeded(onDataLost: () -> Unit) {
+            try {
+                val dynamicRealm = DynamicRealm.getInstance(defaultConfiguration)
+                val shouldMigrate = dynamicRealm.version < DB_VERSION
+                dynamicRealm.close()
+                if (shouldMigrate) {
+                    dropDb(onDataLost)
+                }
+            } catch (ex: Exception) {
+                logE(TAG, { "init > fail" }, ex)
+                dropDb(onDataLost)
+            }
+        }
+
+        private fun dropDb(onDataLost: () -> Unit) {
+            Realm.deleteRealm(defaultConfiguration)
+            onDataLost()
         }
     }
 }

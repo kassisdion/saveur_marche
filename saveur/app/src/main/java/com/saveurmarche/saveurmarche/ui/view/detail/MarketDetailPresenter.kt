@@ -8,6 +8,7 @@ import javax.inject.Inject
 class MarketDetailPresenter @Inject constructor(private val marketManager: MarketsManager) :
         BasePresenter<MarketDetailContract.View>(),
         MarketDetailContract.Presenter {
+
     /*
     ************************************************************************************************
     ** Private field
@@ -20,6 +21,12 @@ class MarketDetailPresenter @Inject constructor(private val marketManager: Marke
     ** MarketDetailContract.Presenter implementation
     ************************************************************************************************
     */
+    override fun onUrlTextViewClicked() {
+        mMarket.webSiteUrl?.let {
+            view?.openWebPage(it)
+        }
+    }
+
     override fun setArgs(marketId: String) {
         marketManager.getLocalMarketById(marketId).let {
             if (it == null) {
@@ -31,6 +38,11 @@ class MarketDetailPresenter @Inject constructor(private val marketManager: Marke
         populateView()
     }
 
+    /*
+    ************************************************************************************************
+    ** Private fun
+    ************************************************************************************************
+    */
     private fun populateView() {
         view?.seName(mMarket.displayableName)
         view?.setHour("9H00 - 12H00")
