@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="8dip">
+
+    <ImageView
+        android:id="@+id/itemMarketImage"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_market_colorhint"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginStart="8dip"
+        android:layout_marginTop="8dip"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/itemMarketTextViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fontFamily="@font/lato_bold"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="8dip"
+            android:background="@color/dividerColor" />
+
+        <TextView
+            android:id="@+id/itemMarketTextViewHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="12sp"
+            app:fontFamily="@font/lato_regular"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="12dip"
+                android:layout_height="12dip"
+                app:srcCompat="@drawable/ic_light_colorhint"/>
+
+            <TextView
+                android:id="@+id/itemMarketTextViewDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dip"
+                android:layout_marginStart="4dip"
+                app:fontFamily="@font/lato" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="20dip"
+            android:layout_gravity="end"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="@string/see_market_detail"
+            android:textSize="12sp"
+            app:fontFamily="@font/lato_regular"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+

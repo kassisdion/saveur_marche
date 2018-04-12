@@ -2,6 +2,7 @@ package com.saveurmarche.saveurmarche.ui.view.launch
 
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.saveurmarche.saveurmarche.data.manager.MarketsManager
+import com.saveurmarche.saveurmarche.helper.logD
 import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.ui.view.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,6 +22,7 @@ class LaunchPresenter @Inject constructor(private val marketManager: MarketsMana
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
+                            logD("LaunchPresenter", { "setupView > success" })
                             view?.redirectToMainActivity()
                         },
                         {

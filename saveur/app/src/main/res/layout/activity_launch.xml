@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textSize="40sp"
+        android:textColor="@color/black"
         app:fontFamily="@font/lato_bold"/>
 
     <Space

@@ -110,7 +110,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/marketdetail_header_presentation"
-                    app:fontFamily="@font/lato_bold"/>
+                    app:fontFamily="@font/lato_bold"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/marketDetailDescription"
@@ -136,7 +137,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/marketdetail_header_products"
-                    app:fontFamily="@font/lato_bold"/>
+                    app:fontFamily="@font/lato_bold"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/marketDetailProductDescription"
@@ -162,10 +164,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/marketdetail_header_hours"
-                    app:fontFamily="@font/lato_bold"/>
+                    app:fontFamily="@font/lato_bold"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/marketDetailHour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_marginBottom="8dip"
+                android:layout_marginTop="8dip"
+                android:background="@color/dividerColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dip"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="12dip"
+                        android:layout_height="12dip"
+                        android:src="@drawable/logo"/>
+
+                    <Space
+                        android:layout_width="8dip"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/marketdetail_advice"
+                        app:fontFamily="@font/lato_bold"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/marketDetailAdvice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

@@ -12,8 +12,7 @@ class SaveurRequestManager(private val service: Services.ApiService,
     fun getMarketUrl(): Single<Response<MarketsUrlResponse>> {
         val oauthHeader = String.format("Bearer %s", preferenceManager.oauthAccessToken)
 
-        return service
-                .getMarketsUrl(oauthHeader, preferenceManager.lastJsonFetchData)
+        return service.getMarketsUrl(oauthHeader, preferenceManager.lastJsonFetchData)
     }
 
     fun getMarketsFile(url: String): Single<MarketFileResponse> {

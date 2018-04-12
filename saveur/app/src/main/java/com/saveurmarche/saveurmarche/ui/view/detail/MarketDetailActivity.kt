@@ -43,6 +43,7 @@ class MarketDetailActivity : BaseActivity(), MarketDetailContract.View {
     private lateinit var mImageViewPicture: ImageView
     private lateinit var mDistanceTextView: TextView
     private lateinit var mUrlTextView: TextView
+    private lateinit var mAdviceTextview: TextView
 
     /*
     ************************************************************************************************
@@ -144,6 +145,7 @@ class MarketDetailActivity : BaseActivity(), MarketDetailContract.View {
         mImageViewPicture = findViewById(R.id.marketDetailImage)
         mDistanceTextView = findViewById(R.id.marketDetailTextViewDistance)
         mUrlTextView = findViewById(R.id.marketDetailUrl)
+        mAdviceTextview = findViewById(R.id.marketDetailAdvice)
     }
 
     private fun setupToolbar() {

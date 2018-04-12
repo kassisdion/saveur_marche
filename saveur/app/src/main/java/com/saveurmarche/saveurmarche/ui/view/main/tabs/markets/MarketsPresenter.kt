@@ -5,6 +5,7 @@ import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.saveurmarche.saveurmarche.data.database.entity.Market
 import com.saveurmarche.saveurmarche.data.manager.MarketsManager
 import com.saveurmarche.saveurmarche.data.matcher.impl.MarketMatcher
+import com.saveurmarche.saveurmarche.helper.logD
 import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.ui.view.base.BasePresenter
 import javax.inject.Inject
@@ -66,6 +67,7 @@ class MarketsPresenter @Inject constructor(private val marketManager: MarketsMan
                 })
                 .subscribe(
                         {
+                            logD("MarketMapsPresenter", { "setupView > ${it.size} markets" })
                             mData.clear()
                             mData.addAll(it)
                             view?.setData(it)

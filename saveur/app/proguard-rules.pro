@@ -16,7 +16,7 @@
 #   public *;
 #}
 
--optimizationpasses 5
+-optimizationpasses 2
 -dontskipnonpubliclibraryclassmembers
 -dontpreverify
 -verbose
@@ -51,7 +51,15 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
+# Kotlin
+-dontwarn kotlin.**
 -keepattributes EnclosingMethod
 -keepattributes InnerClasses
+-dontwarn kotlin.reflect.jvm.internal.**
+-keep class kotlin.reflect.jvm.internal.** { *; }
 
 -dontwarn com.google.errorprone.annotations.*
+
+# Keep entity
+-keep class com.saveurmarche.saveurmarche.data.database.entity.** { *; }
+-keep class com.saveurmarche.saveurmarche.api.response.** { *; }

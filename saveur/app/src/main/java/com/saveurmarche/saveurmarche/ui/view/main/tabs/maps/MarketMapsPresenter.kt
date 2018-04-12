@@ -8,6 +8,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.saveurmarche.saveurmarche.data.database.entity.Market
 import com.saveurmarche.saveurmarche.data.manager.MarketsManager
 import com.saveurmarche.saveurmarche.data.matcher.impl.MarketMatcher
+import com.saveurmarche.saveurmarche.helper.logD
 import com.saveurmarche.saveurmarche.helper.logE
 import com.saveurmarche.saveurmarche.ui.view.base.BasePresenter
 import javax.inject.Inject
@@ -125,6 +126,7 @@ class MarketMapsPresenter @Inject constructor(private val marketsManager: Market
                 .doAfterTerminate({ view?.showLoading(false) })
                 .subscribe(
                         {
+                            logD("MarketMapsPresenter", { "setupView > ${it.size} markets" })
                             mData = it
                             view?.drawMarketOnMap(ArrayList(it))
                         },
